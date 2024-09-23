@@ -15,7 +15,7 @@ public class RoomService {
 
     @Autowired
     public RoomService(WebClient webclient) {
-        this.webClient = webClient;
+        this.webClient = webclient;
     }
 
     public Flux<Room> getAllRooms() {
