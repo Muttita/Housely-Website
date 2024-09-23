@@ -12,27 +12,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/auth/register", "/auth/login").permitAll() // อนุญาตให้เข้าถึงหน้าที่ระบุได้ทุกคน
-                        .requestMatchers("/static/**", "/uploads/**", "/css/**", "/js/**")
-                        .permitAll() //
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // เฉพาะผู้ใช้ที่มี role ADMIN เท่านั้นที่สามารถเข้าถึง /admin/ ได้
-                        .anyRequest().authenticated() // ทุก request ต้องมีการยืนยันตัวตน
-                )
-                .formLogin(form -> form
-                        .loginPage("/auth/login") // หน้า login ที่เราจะสร้าง
-                        .defaultSuccessUrl("/user/product", true) // redirect ไปที่หน้า products หลังจาก login สำเร็จ
-                        .permitAll() // อนุญาตให้เข้าถึงหน้า login ได้ทุกคน
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/auth/login?logout") // redirect หลังจาก logout
-                        .permitAll()
-                );
-
-                return http.build();
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http
+                    .authorizeHttpRequests(auth -> auth
+                            .requestMatchers("/", "/home", "/auth/register", "/auth/login").permitAll()
+                            .requestMatchers("/static/**", "/uploads/**", "/css/**", "/js/**").permitAll()
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
+                            .anyRequest().authenticated()
+                    )
+                    .formLogin(form -> form
+                            .loginPage("/auth/login")
+                            .defaultSuccessUrl("/user/product", true)
+                            .permitAll()
+                    )
+                    .logout(logout -> logout
+                            .logoutSuccessUrl("/auth/login?logout")
+                            .permitAll()
+                    );
+    
+            return http.build();
         }
 
     @Bean
