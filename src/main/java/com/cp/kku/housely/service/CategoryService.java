@@ -39,7 +39,7 @@ public class CategoryService {
         .retrieve()
         .onStatus(
                     status -> status.is4xxClientError() || status.is5xxServerError(),
-                    response -> Mono.error(new RuntimeException("Error creating department"))
+                    response -> Mono.error(new RuntimeException("Error creating category"))
                 )
         .bodyToMono(Category.class);
     }
@@ -51,7 +51,7 @@ public class CategoryService {
         .retrieve()
         .onStatus(
                     status -> status.is4xxClientError() || status.is5xxServerError(),
-                    response -> Mono.error(new RuntimeException("Error creating department"))
+                    response -> Mono.error(new RuntimeException("Error updating category"))
                 )
         .bodyToMono(Category.class);
     }

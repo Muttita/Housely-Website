@@ -1,52 +1,111 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="th">
+
 <head>
-    <title>Product List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการสินค้า</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@100..700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: "Anuphan", sans-serif;
+            font-size: 16px;
+            color: #333;
+            background-color: #ffffff;
+        }
+        
+        table.table-striped {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table.table-striped thead {
+            background-color: #4caf50;
+        }
+
+        table.table-striped thead th {
+            padding: 12px;
+        }
+
+        table.table-striped tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        table.table-striped tbody tr:hover {
+            background-color: #e2e8f0;
+            transition: background-color 0.3s ease;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Product List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Image</th> <!-- New Image Column -->
-                <th>Product Code</th>
-                <th>Brand Name</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Description</th>
-                <th>Categories</th>
-                <th>Rooms</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="product : ${products}">
-                <td>
-                    <img th:src="@{'/uploads/' + ${product.imageBase64}}" alt="Product Image" width="100" height="100" />
-                </td> <!-- Displaying Image -->
-                <td th:text="${product.id}"></td>
-                <td th:text="${product.brandName}"></td>
-                <td th:text="${product.productName}"></td>
-                <td th:text="${product.price}"></td>
-                <td th:text="${product.quantity}"></td>
-                <td th:text="${product.description}"></td>
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold" style="margin : 30px 0px 30px 0px;">รายการสินค้า</h1>
+        
+        <div class="flex justify-between mb-4">
+            <div class="flex justify-end">
+                <a href="/products/add" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors">
+                    <i class="fas fa-plus h-5 w-5 mr-2"></i> เพิ่มสินค้าใหม่
+                </a>
+            </div>
+            <div>
+                <a th:href="@{/}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-home h-5 w-5 mr-2"></i> กลับสู่หน้าหลัก
+                </a>
+            </div>
+        </div>
 
-                <td>
-                    <span th:each="category : ${product.categories}" th:text="${category.categoryName}"></span>
-                </td> <!-- Displaying Categories -->
-                
-                <td>
-                    <span th:each="room : ${product.rooms}" th:text="${room.roomName}"></span>
-                </td> <!-- Displaying Rooms -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">รูปภาพ</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">รหัสสินค้า</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ชื่อสินค้า</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ราคา</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">จำนวนสต็อก</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">คำอธิบาย</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ประเภท</th>
+                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ห้อง</th>
+                    <th class="px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">การดำเนินการ</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200" id="productTable">
+                <tr class="table-row" th:each="product : ${products}">
+                    <td>
+                        <img th:src="@{'/uploads/' + ${product.imageBase64}}" alt="Product Image" style="width: 50px; height: 50px;" />
+                    </td>
+                    <td th:text="${product.productCode}"></td>
+                    <td th:text="${product.productName}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td th:text="${product.quantity}"></td>
+                    <td th:text="${product.description}"></td>
+                    <td>
+                        <span th:each="category : ${product.categories}" th:text="${category.categoryName}"></span>
+                    </td>
+                    <td>
+                        <span th:each="room : ${product.rooms}" th:text="${room.roomName}"></span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-warning">แก้ไข</a>
+                        <a th:href="@{'/products/delete/' + ${product.id}}" class="btn btn-danger" onclick="return confirmDelete()">ลบ</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                <td>
-                    <a th:href="@{'/products/edit/' + ${product.id}}">Edit</a>
-                    <a th:href="@{'/products/delete/' + ${product.id}}">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="/products/add">Add New Product</a>
+    <script>
+        function confirmDelete() {
+            return confirm('คุณแน่ใจว่าต้องการลบสินค้านี้?');
+        }
+    </script>
 </body>
+
 </html>

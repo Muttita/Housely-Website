@@ -38,7 +38,7 @@ public class ProductService {
                 .retrieve()
                 .onStatus(
                         status -> status.is4xxClientError() || status.is5xxServerError(),
-                        response -> Mono.error(new RuntimeException("Error creating department")))
+                        response -> Mono.error(new RuntimeException("Error creating product")))
                 .bodyToMono(Product.class);
     }
 
@@ -49,7 +49,7 @@ public class ProductService {
                 .retrieve()
                 .onStatus(
                         status -> status.is4xxClientError() || status.is5xxServerError(),
-                        response -> Mono.error(new RuntimeException("Error creating department")))
+                        response -> Mono.error(new RuntimeException("Error updating product")))
                 .bodyToMono(Product.class);
     }
 
@@ -59,4 +59,20 @@ public class ProductService {
         .retrieve()
         .bodyToMono(Void.class);
     }
+
+    public Flux<Product> getProductsByCategoryId(Long categoryId){
+        return webClient.get()
+        .uri("/products/category/{categoryId}",categoryId)
+        .retrieve()
+        .bodyToFlux(Product.class);
+    }
+
+    public Flux<Product> getProductsByRoomId(Long roomId){
+        return webClient.get()
+        .uri("/products//room/{roomId}",roomId)
+        .retrieve()
+        .bodyToFlux(Product.class);
+    }
+
+
 }
