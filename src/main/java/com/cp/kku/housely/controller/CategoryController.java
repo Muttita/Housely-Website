@@ -32,7 +32,7 @@ public class CategoryController {
 
     @PostMapping("/save")
     public String saveCategory(@ModelAttribute("category") Category category) {
-        categoryService.createCategory(category);
+        categoryService.createCategory(category).block();
         return "redirect:/categories"; // Redirect to the category list after saving
     }
 
@@ -46,14 +46,14 @@ public class CategoryController {
     @PostMapping("/save/{id}")
     public String updateCategory(@ModelAttribute("category") Category category, @PathVariable Long id) {
     	category.setCategoryId(id);
-        categoryService.createCategory(category);
+        categoryService.createCategory(category).block();
         return "redirect:/categories"; // Redirect to the category list after saving
     }
     
 
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
+        categoryService.deleteCategory(id).block();
         return "redirect:/categories"; // Redirect to the category list after deletion
     }
 }
