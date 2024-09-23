@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.cp.kku.demo.service.ProductService;
+import com.cp.kku.housely.service.ProductService;
 import com.cp.kku.housely.service.CategoryService;
 import com.cp.kku.housely.service.RoomService;
 import io.micrometer.common.util.StringUtils;
@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/product")
     public String showProducts(Model model) {
-        model.addAttribute("products", categoryService.getAllCategories());
+        model.addAttribute("products", productService.getAllProducts().collectList().block());
         model.addAttribute("categorys", categoryService.getAllCategories().collectList().block());
         model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
         return "user-product";
