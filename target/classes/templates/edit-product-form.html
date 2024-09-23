@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Form</title>
+</head>
+<body>
+    <h1>Product Form</h1>
+    <form th:action="@{/products/save/{id}(id=${product.id})}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        <label>Product Code: <input th:field="*{productCode}" /></label><br/>
+        <label>Brand Name: <input th:field="*{brandName}" /></label><br/>
+        <label>Product Name: <input th:field="*{productName}" /></label><br/>
+        <label>Price: <input th:field="*{price}" /></label><br/>
+        <label>Quantity: <input th:field="*{quantity}" /></label><br/>
+        <label>Description: <textarea th:field="*{description}"></textarea></label><br/>
+        
+        <!-- New field for displaying old image -->
+        <label>Current Image:</label><br/>
+        <img th:src="@{'/uploads/' + ${product.imageBase64}}" alt="Current Product Image" width="100" height="100" th:if="${product.imageBase64}"/><br/>
+        
+        <!-- New field for uploading image -->
+        <label>Upload New Image: <input type="file" name="image" accept="image/*"/></label><br/>
+        
+        <label>Categories:
+            <select multiple th:field="*{categories}">
+                <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+            </select>
+        </label><br/>
+        <label>Rooms:
+            <select multiple th:field="*{rooms}">
+                <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.roomName}"></option>
+            </select>
+        </label><br/>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

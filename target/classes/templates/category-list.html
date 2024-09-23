@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Category Management</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/categories}">Categories</a></li>
+                <li><a th:href="@{/rooms}">Rooms</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Categories</h2>
+        <a th:href="@{/categories/add}">Add New Category</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.categoryId}"></td>
+                    <td th:text="${category.categoryName}"></td>
+                    <td th:text="${category.description}"></td>
+                    <td>
+                        <a th:href="@{/categories/edit/{id}(id=${category.categoryId})}">Edit</a>
+                        <a th:href="@{/categories/delete/{id}(id=${category.categoryId})}">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Category Management System</p>
+    </footer>
+</body>
+</html>

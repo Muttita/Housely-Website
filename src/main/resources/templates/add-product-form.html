@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Form</title>
+</head>
+<body>
+    <h1>Product Form</h1>
+    <form th:action="@{/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        <label>Product Code: <input th:field="*{productCode}" /></label><br/>
+        <label>Brand Name: <input th:field="*{brandName}" /></label><br/>
+        <label>Product Name: <input th:field="*{productName}" /></label><br/>
+        <label>Price: <input th:field="*{price}" type="number" step="0.01" /></label><br/>
+        <label>Quantity: <input th:field="*{quantity}" type="number" /></label><br/>
+        <label>Description: <textarea th:field="*{description}"></textarea></label><br/>
+        
+        <label>Categories:
+            <select multiple th:field="*{categories}">
+                <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+            </select>
+        </label><br/>
+        
+        <label>Rooms:
+            <select multiple th:field="*{rooms}">
+                <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.roomName}"></option>
+            </select>
+        </label><br/>
+        
+        <label>Image: <input type="file" name="image" accept="image/*" /></label><br/> <!-- File Input for Image -->
+        
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

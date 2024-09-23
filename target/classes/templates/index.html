@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        nav {
+            margin-top: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ffc107;
+        }
+        main {
+            flex: 1;
+            padding: 30px;
+            text-align: center;
+        }
+        main h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        main ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        main ul li {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        main ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Product Management System</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/categories}">Categories</a></li>
+                <li><a th:href="@{/rooms}">Rooms</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Available Features</h2>
+
+    <a th:href="@{/products}" style="display: inline-block; padding: 10px 20px; margin: 10px; background: white; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: #007bff; transition: background-color 0.3s;">
+        Manage Products
+    </a>
+    <a th:href="@{/categories}" style="display: inline-block; padding: 10px 20px; margin: 10px; background: white; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: #007bff; transition: background-color 0.3s;">
+        Manage Categories
+    </a>
+    <a th:href="@{/rooms}" style="display: inline-block; padding: 10px 20px; margin: 10px; background: white; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: #007bff; transition: background-color 0.3s;">
+        Manage Rooms
+    </a>
+
+		<p>This application helps you manage products, categories, and rooms efficiently.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Product Management System</p>
+    </footer>
+</body>
+</html>
+
+

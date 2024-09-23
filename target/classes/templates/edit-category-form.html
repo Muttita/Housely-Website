@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1 th:text="${category.categoryId} != null ? 'Edit Category' : 'Add Category'"></h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/categories}">Categories</a></li>
+                <li><a th:href="@{/rooms}">Rooms</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <form th:action="@{/categories/save/{id}(id=${category.categoryId})}" th:object="${category}" method="post">
+            <div>
+                <label for="categoryName">Category Name:</label>
+                <input type="text" id="categoryName" th:field="*{categoryName}" required />
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea id="description" th:field="*{description}" required></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Save" />
+                <a th:href="@{/categories}">Cancel</a>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Category Management System</p>
+    </footer>
+</body>
+</html>

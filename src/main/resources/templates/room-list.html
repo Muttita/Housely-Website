@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <header>
+        <h1>Room Management</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/products}">Products</a></li>
+                <li><a th:href="@{/categories}">Categories</a></li>
+                <li><a th:href="@{/rooms}">Rooms</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Rooms</h2>
+        <a th:href="@{/rooms/add}">Add New Room</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Room Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.id}"></td>
+                    <td th:text="${room.roomName}"></td>
+                    <td th:text="${room.description}"></td>
+                    <td>
+                        <a th:href="@{/rooms/edit/{id}(id=${room.id})}">Edit</a>
+                        <a th:href="@{/rooms/delete/{id}(id=${room.id})}">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Room Management System</p>
+    </footer>
+</body>
+</html>
