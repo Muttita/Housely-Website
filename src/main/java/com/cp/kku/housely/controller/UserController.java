@@ -1,10 +1,6 @@
-package com.cp.kku.demo.controller;
-
-import java.util.List;
-
+package com.cp.kku.housely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cp.kku.demo.service.ProductService;
 import com.cp.kku.housely.service.CategoryService;
 import com.cp.kku.housely.service.RoomService;
-
 import io.micrometer.common.util.StringUtils;
 
 @Controller

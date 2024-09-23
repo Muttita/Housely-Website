@@ -42,6 +42,12 @@
             background-color: #e2e8f0;
             transition: background-color 0.3s ease;
         }
+        .word-break {
+            word-break: break-word; /* ตัดคำให้ขึ้นบรรทัดใหม่ */
+            white-space: normal; /* อนุญาตให้มีการขึ้นบรรทัดใหม่ */
+            overflow-wrap: break-word; /* ให้ข้อความยาวตัดขึ้นบรรทัดใหม่ */
+        }
+        
     </style>
 </head>
 
@@ -87,10 +93,16 @@
                     <td th:text="${product.quantity}"></td>
                     <td th:text="${product.description}"></td>
                     <td>
-                        <span th:each="category : ${product.categories}" th:text="${category.categoryName}"></span>
+                        <span th:each="category, stat : ${product.categories}">
+                            <span class="word-break" th:text="${category.categoryName}"></span>
+                            <span th:if="${!stat.last}">&nbsp;</span> <!-- เพิ่มวรรคระหว่างแต่ละ category -->
+                        </span>
                     </td>
                     <td>
-                        <span th:each="room : ${product.rooms}" th:text="${room.roomName}"></span>
+                        <span th:each="room, stat : ${product.rooms}">
+                            <span th:text="${room.roomName}"></span>
+                            <span th:if="${!stat.last}">, </span> <!-- ใส่คอมม่าและวรรคระหว่างแต่ละ category -->
+                        </span>
                     </td>
                     <td>
                         <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-warning">แก้ไข</a>
