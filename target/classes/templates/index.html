@@ -5,28 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Management</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            font-family: 'Anuphan', sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            user-select: none;
-            background-color: #DFF3EA;
+            background-color: #f0f8f5; /* เปลี่ยนเป็นสีพื้นหลังที่นุ่มนวล */
         }
         header {
-            background: linear-gradient(to top, #DFF3EA, #C2E4EF);
-            color: #000;
-            padding: 15px;
-            text-align: left;
+            background-color: #4caf50; /* สีเขียว */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        header h1 {
-            font-family: 'Aboreto', cursive;
-            font-size: 2.2em;
-            margin: 0;
+        nav {
+            margin-top: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #ffc107; /* สีเหลืองเมื่อ hover */
         }
         main {
             flex: 1;
@@ -34,81 +49,77 @@
             text-align: center;
         }
         main h2 {
-            color: #000;
+            color: #333;
             margin-bottom: 20px;
             font-size: 2em;
         }
-        .features-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .feature-box {
-            background: rgba(255, 255, 255, 0.55); /* กล่องสีขาวโปร่งใส 55% */
-            border-radius: 12px;
-            padding: 20px;
-            width: 200px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .feature-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        .feature-box img {
-            width: 80px;
-            height: 80px;
-        }
-        .feature-box h3 {
-            margin-top: 10px;
-            font-size: 1.2em;
-            color: #000;
-        }
         .feature-link {
+            display: block;
+            padding: 15px 25px;
+            margin: 15px auto;
+            width: 40%;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             text-decoration: none;
-            color: inherit;
+            color: #4caf50; /* เปลี่ยนเป็นสีเขียว */
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-link:hover {
+            background-color: #e7f3e7; /* สีพื้นหลังเมื่อ hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         footer {
-            background: linear-gradient(to bottom, #DFF3EA, #C2E4EF);
-            color: #000;
+            background-color: #343a40; /* สีเทาเข้ม */
+            color: white;
             text-align: center;
-            padding: 15px;
+            padding: 15px 0;
+        }
+        .logout-button {
+            background-color: #f44336; /* สีแดง */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .logout-button:hover {
+            background-color: #d32f2f; /* สีแดงเข้มเมื่อ hover */
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>HOUSELY</h1>
-    </header>
+<header>
+    <h1>Welcome to the Product Management System</h1>
+    <nav>
+        <ul>
+            <li><a th:href="@{/products}">Products</a></li>
+            <li><a th:href="@{/categories}">Categories</a></li>
+            <li><a th:href="@{/rooms}">Rooms</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-    <main>
-        <h2>Available Features</h2>
+<main>
+    <h2>Available Features</h2>
 
-        <div class="features-container">
-            <a th:href="@{/products}" class="feature-link">
-                <div class="feature-box">
-                    <img th:src="@{/uploads/Furniture.png}" alt="Products Icon">
-                    <h3>Furnitures</h3>
-                </div>
-            </a>
-            <a th:href="@{/categories}" class="feature-link">
-                <div class="feature-box">
-                    <img th:src="@{/uploads/categories.png}" alt="Categories Icon">
-                    <h3>Categories</h3>
-                </div>
-            </a>
-            <a th:href="@{/rooms}" class="feature-link">
-                <div class="feature-box">
-                    <img th:src="@{/uploads/room.png}" alt="Rooms Icon">
-                    <h3>Rooms</h3>
-                </div>
-            </a>
-        </div>
-    </main>
+    <a th:href="@{/products}" class="feature-link">Manage Products</a>
+    <a th:href="@{/categories}" class="feature-link">Manage Categories</a>
+    <a th:href="@{/rooms}" class="feature-link">Manage Rooms</a>
 
-    <footer>
-        <p>&copy; 2024 Furniture Shop Management System</p>
-    </footer>
+    <p>This application helps you manage products, categories, and rooms efficiently.</p>
+</main>
+
+<footer>
+    <p>&copy; 2024 Product Management System</p>
+</footer>
 </body>
 </html>
