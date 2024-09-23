@@ -142,9 +142,20 @@
                 alert('กรุณาเพิ่มสินค้าในตะกร้าก่อนชำระเงิน');
                 return;
             }
-            alert('ชำระเงินเรียบร้อย! ยอดรวม: ' + document.getElementById('totalAmount').textContent + ' บาท');
+
+            // แสดงยอดรวมสำหรับการชำระเงิน
+            let totalAmount = document.getElementById('totalAmount').textContent;
+            alert('ชำระเงินเรียบร้อย! ยอดรวม: ' + totalAmount + ' บาท');
+
+            // ปรับปรุงจำนวนสินค้าในฐานข้อมูล (ถ้ามี)
+            cart.forEach(item => {
+                // สมมติว่าคุณมีฟังก์ชัน updateProductQuantity เพื่ออัปเดตจำนวนในฐานข้อมูล
+                updateProductQuantity(item.id, item.quantity);
+            });
+
+            // ลบข้อมูลตะกร้าใน localStorage
             cart = [];
-            localStorage.removeItem('cart'); // ลบข้อมูลตะกร้าใน localStorage
+            localStorage.removeItem('cart');
             updateCartDisplay();
         }
 
@@ -155,6 +166,25 @@
                 cart = savedCart;
                 updateCartDisplay();
             }
+        }
+
+        function updateProductQuantity(productId, quantity) {
+            // เชื่อมต่อ API ของคุณที่นี่
+            fetch(`/api/products/${productId}/decrease?quantity=${quantity}`, {
+                method: 'POST'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Quantity updated:', data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
         }
 
         
