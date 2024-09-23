@@ -1,4 +1,6 @@
 package com.cp.kku.housely.configuration;
+
+import com.cp.kku.housely.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,11 +18,12 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/home", "/auth/register", "/auth/login").permitAll() // อนุญาตให้เข้าถึงหน้าที่ระบุได้ทุกคน
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // เฉพาะผู้ใช้ที่มี role ADMIN เท่านั้นที่สามารถเข้าถึง /admin/ ได้
                         .anyRequest().authenticated() // ทุก request ต้องมีการยืนยันตัวตน
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login") // หน้า login ที่เราจะสร้าง
-                        .defaultSuccessUrl("/", true) // redirect ไปที่หน้า home หลังจาก login สำเร็จ
+                        .defaultSuccessUrl("/products", true) // redirect ไปที่หน้า products หลังจาก login สำเร็จ
                         .permitAll() // อนุญาตให้เข้าถึงหน้า login ได้ทุกคน
                 )
                 .logout(logout -> logout
@@ -35,5 +38,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // ใช้ BCrypt สำหรับเข้ารหัสรหัสผ่าน
     }
-
 }
