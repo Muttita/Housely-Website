@@ -59,4 +59,20 @@ public class ProductService {
         .retrieve()
         .bodyToMono(Void.class);
     }
+
+    public Flux<Product> getProductsByCategoryId(Long categoryId){
+        return webClient.get()
+        .uri("/products/category/{categoryId}",categoryId)
+        .retrieve()
+        .bodyToFlux(Product.class);
+    }
+
+    public Flux<Product> getProductsByRoomId(Long roomId){
+        return webClient.get()
+        .uri("/products//room/{roomId}",roomId)
+        .retrieve()
+        .bodyToFlux(Product.class);
+    }
+
+
 }

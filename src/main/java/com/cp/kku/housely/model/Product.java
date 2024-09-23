@@ -9,6 +9,9 @@ import lombok.Data;
 @Data
 public class Product {
 	private Long id;
+	private String productCode;
+	private String brandName;
+	private String ProductName;
     private double price;
     private int quantity;
     private String imageBase64;
