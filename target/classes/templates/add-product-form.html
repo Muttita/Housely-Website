@@ -97,18 +97,22 @@
                 <textarea id="description" th:field="*{description}" placeholder="Enter description" required></textarea>
             </div>
              <!-- Categories with Select2 -->
-        <div class="form-section">
-            <label class="label">Categories</label>
-            <select id="categorySelect" multiple th:field="*{categories}">
-                <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
-            </select>
-        </div>
+             <div class="form-section">
+                <label class="label">Categories</label>
+                <select id="categorySelect" multiple name="categoryIds">
+                    <option th:each="category : ${categories}" 
+                            th:value="${category.categoryId}" 
+                            th:text="${category.categoryName}"></option>
+                </select>
+            </div>
 
         <!-- Rooms with Select2 -->
         <div class="form-section">
             <label class="label">Rooms</label>
-            <select id="roomSelect" multiple th:field="*{rooms}">
-                <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.roomName}"></option>
+            <select id="roomSelect" multiple name="roomIds">
+                <option th:each="room : ${rooms}" 
+                        th:value="${room.id}" 
+                        th:text="${room.roomName}"></option>
             </select>
         </div>
             <div>
