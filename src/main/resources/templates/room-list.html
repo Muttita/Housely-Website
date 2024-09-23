@@ -49,7 +49,7 @@
         
         <div class="flex justify-between mb-4">
             <div class="flex justify-end">
-                <a href="/rooms/add" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors">
+                <a href="/admin/rooms/add" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition-colors">
                     <i class="fas fa-plus h-5 w-5 mr-2"></i> เพิ่มห้องใหม่
                 </a>
             </div>
@@ -75,8 +75,8 @@
                     <td th:text="${room.roomName}"></td>
                     <td th:text="${room.description}"></td>
                     <td>
-                        <a th:href="@{/rooms/edit/{id}(id=${room.id})}" class="btn btn-warning">แก้ไข</a>
-                        <a th:href="@{/rooms/delete/{id}(id=${room.id})}" class="btn btn-danger" onclick="return confirmDelete()">ลบ</a>
+                        <a th:href="@{/admin/rooms/edit/{id}(id=${room.id})}" class="btn btn-warning">แก้ไข</a>
+                        <a th:href="@{/admin/rooms/delete/{id}(id=${room.id})}" class="btn btn-danger" onclick="return confirmDelete()">ลบ</a>
                     </td>
                 </tr>
             </tbody>

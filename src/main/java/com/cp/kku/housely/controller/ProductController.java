@@ -29,7 +29,7 @@ import com.cp.kku.housely.service.RoomService;
 
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/admin/products")
 public class ProductController {
 
     @Autowired
