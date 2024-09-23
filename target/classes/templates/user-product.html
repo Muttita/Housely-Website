@@ -1,113 +1,113 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Product</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housely - สินค้า</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            background-color: #f8f9fa; /* สีพื้นหลังที่อ่อน */
-            padding: 20px;
-        }
-        .product-card {
-            transition: transform 0.2s; /* เพิ่มการเปลี่ยนแปลงเมื่อ hover */
-            border-radius: 10px; /* มุมโค้ง */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงา */
-        }
-        .product-card:hover {
-            transform: scale(1.05); /* ขยายเมื่อ hover */
-        }
-        .product-card img {
-            max-height: 180px;
-            object-fit: contain;
-            border-radius: 10px 10px 0 0; /* มุมโค้งสำหรับรูปภาพ */
-        }
-        .card-title {
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-        .card-text {
-            color: #555;
-        }
-        .btn-primary {
-            background-color: #007bff; /* ปรับสีปุ่ม */
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3; /* สีเมื่อ hover */
-            border-color: #0056b3;
-        }
-        .navbar {
-            border-bottom: 2px solid #007bff; /* เส้นขอบล่าง */
+            font-family: 'Prompt', sans-serif;
         }
     </style>
 </head>
-<body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="#">Housely</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <div class="col-md-6">
-                            <select class="form-select" onchange="location = this.value;">
-                                <option value="">เลือกหมวดหมู่</option>
-                                <option th:each="cate : ${categorys}" 
-                                        th:value="@{/user/product/category/{id}(id=${cate.categoryId})}" 
-                                        th:text="${cate.categoryName}"></option>
-                            </select>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <div class="col-md-6">
-                            <select class="form-select" onchange="location = this.value;">
-                                <option value="">เลือกห้อง</option>
-                                <option th:each="room : ${rooms}" 
-                                        th:value="@{/user/product/room/{id}(id=${room.id})}" 
-                                        th:text="${room.roomName}"></option>
-                            </select>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@{/user/orders}">คำสั่งซื้อ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@{/user/profile}">โปรไฟล์</a>
-                    </li>
-                </ul>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="#" class="flex items-center py-4 px-2">
+                            <span class="font-semibold text-gray-500 text-lg">Housely</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="/user/product" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">สินค้า</a>
+                    <select class="py-2 px-2 text-gray-500 font-semibold bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="location = this.value; showSelectedRoom(this);">
+                        <option value="">เลือกหมวดหมู่</option>
+                        <option th:each="cate : ${categorys}" 
+                                th:value="@{/user/product/category/{id}(id=${cate.categoryId})}" 
+                                th:text="${cate.categoryName}"></option>
+                    </select>
+                    <select class="py-2 px-2 text-gray-500 font-semibold bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="location = this.value; showSelectedRoom(this);">
+                        <option value="">เลือกห้อง</option>
+                        <option th:each="room : ${rooms}" 
+                                th:value="@{/user/product/room/{id}(id=${room.id})}" 
+                                th:text="${room.roomName}"></option>
+                    </select>
+                    <a href="/user/orders" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">คำสั่งซื้อ</a>
+                    <a href="/user/profile" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">โปรไฟล์</a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <h1 class="text-center mb-4">Product</h1>
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">สินค้า</h1>
+            <hr width="100%"/>
+            <h1 id="selectedRoomTitle" class="text-4xl font-bold text-gray-800 mb-2 transition-all duration-300 ease-in-out transform hover:scale-105"></h1>
+            <div class="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
+        </div>
 
-        <div class="row">
-            <div class="col-md-4 col-sm-6 mb-4" th:each="product : ${products}">
-                <div class="card product-card">
-                    <img th:src="@{'/uploads/' + ${product.imageBase64}}" class="card-img-top" alt="Product Image">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${product.productName}"></h5>
-                        <p class="card-text" th:text="${product.description}"></p>
-                        <p class="card-text">
-                            <strong th:text="${#numbers.formatCurrency(product.price)}"></strong>
-                            <small class="text-muted" th:text="${'(Qty: ' + product.quantity + ')'}"></small>
-                        </p>
-                        <div class="d-flex justify-content-between">
-                            <a th:href="@{'/user/product/' + ${product.id}}" class="btn btn-primary btn-sm">View</a>
-                        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="product : ${products}" class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105">
+                <img th:src="@{'/uploads/' + ${product.imageBase64}}" class="w-full h-48 object-cover" alt="Product Image">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold mb-2" th:text="${product.productName}"></h5>
+                    <p class="text-gray-600 mb-4" th:text="${product.description}"></p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold text-blue-600" th:text="${#numbers.formatCurrency(product.price)}"></span>
+                        <span class="text-sm text-gray-500" th:text="${'จำนวน: ' + product.quantity}"></span>
                     </div>
+                    <a th:href="@{'/user/product/' + ${product.id}}" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">ดูรายละเอียด</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showSelectedRoom(selectElement) {
+            const selectedRoomName = selectElement.options[selectElement.selectedIndex].text;
+            const titleElement = document.getElementById("selectedRoomTitle");
+    
+            if (selectElement.value !== "") {
+                titleElement.innerText = selectedRoomName;
+                titleElement.classList.remove("hidden");
+                localStorage.setItem("selectedRoomName", selectedRoomName);
+            } else {
+                titleElement.classList.add("hidden");
+                localStorage.removeItem("selectedRoomName");
+            }
+        }
+    
+        window.onload = function() {
+            const savedRoomName = localStorage.getItem("selectedRoomName");
+            const currentPath = window.location.pathname;
+            const titleElement = document.getElementById("selectedRoomTitle");
+    
+            if (currentPath.includes("/product/category") || currentPath.includes("/product/room")) {
+                if (savedRoomName) {
+                    titleElement.innerText = savedRoomName;
+                    titleElement.classList.remove("hidden");
+                }
+            } else {
+                titleElement.classList.add("hidden");
+            }
+        };
+    </script>
 </body>
 </html>

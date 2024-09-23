@@ -69,7 +69,7 @@ public class ProductService {
 
     public Flux<Product> getProductsByRoomId(Long roomId){
         return webClient.get()
-        .uri("/products//room/{roomId}",roomId)
+        .uri("/products/room/{roomId}",roomId)
         .retrieve()
         .bodyToFlux(Product.class);
     }

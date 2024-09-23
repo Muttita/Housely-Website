@@ -38,15 +38,23 @@ public class UserController {
     }
 
     @GetMapping("/product/category/{id}")
-    public String getViewProductByCategory(@PathVariable Long cateid, Model model) {
-        model.addAttribute("products", productService.getProductsByCategoryId(cateid));
+    public String getViewProductByCategory(@PathVariable Long id, Model model) {
+        model.addAttribute("products", productService.getProductsByCategoryId(id).collectList().block());
         model.addAttribute("categorys", categoryService.getAllCategories().collectList().block());
         model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
+
         return "user-product";
     }
-    
 
-    
-   
+    @GetMapping("/product/room/{id}")
+    public String getViewProductByRoom(@PathVariable Long id, Model model) {
+        model.addAttribute("products", productService.getProductsByRoomId(id).collectList().block());
+        model.addAttribute("categorys", categoryService.getAllCategories().collectList().block());
+        model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
+        
+        return "user-product";
+    }
+
+
 
 }
