@@ -1,12 +1,12 @@
-package com.cp.kku.demo.controller;
+package com.cp.kku.housely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.cp.kku.demo.model.Category;
-import com.cp.kku.demo.service.CategoryService;
+import com.cp.kku.housely.model.Category;
+import com.cp.kku.housely.service.CategoryService;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class CategoryController {
 
     @GetMapping
     public String listCategories(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.getAllCategories().collectList().block();
         model.addAttribute("categories", categories);
         return "category-list"; // Return the template for displaying categories
     }
@@ -32,13 +32,13 @@ public class CategoryController {
 
     @PostMapping("/save")
     public String saveCategory(@ModelAttribute("category") Category category) {
-        categoryService.saveCategory(category);
+        categoryService.createCategory(category).block();
         return "redirect:/categories"; // Redirect to the category list after saving
     }
 
     @GetMapping("/edit/{id}")
     public String showEditCategoryForm(@PathVariable Long id, Model model) {
-        Category category = categoryService.getCategoryById(id);
+        Category category = categoryService.getCategoryById(id).block();
         model.addAttribute("category", category);
         return "edit-category-form"; // Return the template for editing a category
     }
@@ -46,14 +46,14 @@ public class CategoryController {
     @PostMapping("/save/{id}")
     public String updateCategory(@ModelAttribute("category") Category category, @PathVariable Long id) {
     	category.setCategoryId(id);
-        categoryService.saveCategory(category);
+        categoryService.createCategory(category).block();
         return "redirect:/categories"; // Redirect to the category list after saving
     }
     
 
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
+        categoryService.deleteCategory(id).block();
         return "redirect:/categories"; // Redirect to the category list after deletion
     }
 }
