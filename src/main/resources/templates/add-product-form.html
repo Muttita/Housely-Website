@@ -41,11 +41,11 @@
             font-family: Anuphan, sans-serif;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 14px; /* ขนาดตัวอักษร */
+            font-size: 14px;
             box-sizing: border-box;
         }
         input[type="file"] {
-            display: none; /* ซ่อน input file */
+            display: none;
         }
         .custom-file-upload {
             display: inline-block;
@@ -53,25 +53,25 @@
             cursor: pointer;
             border: 1px solid #ccc;
             border-radius: 4px;
-            background-color: #DFF3EA; /* สีพื้นหลัง */
-            color: #333; /* สีตัวอักษร */
-            font-size: 14px; /* ขนาดตัวอักษร */
+            background-color: #DFF3EA;
+            color: #333;
+            font-size: 14px;
         }
         input[type="submit"], button {
-            background-color: #000; /* เปลี่ยนเป็นสีดำ */
+            background-color: #000;
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px; /* ขนาดตัวอักษร */
+            font-size: 14px;
         }
         input[type="submit"]:hover, button:hover {
-            background-color: #333; /* สีดำอ่อนเมื่อ hover */
+            background-color: #333;
         }
         a {
             text-decoration: none;
-            color: #000; /* เปลี่ยนเป็นสีดำ */
+            color: #000; 
             margin-left: 10px;
         }
         a:hover {
@@ -85,7 +85,7 @@
 <body>
     <main>
         <h1>Add Product</h1>
-        <form th:action="@{/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/admin/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}">
             <div>
                 <label for="productCode">Product Code:</label>
@@ -101,11 +101,13 @@
             </div>
             <div>
                 <label for="price">Price:</label>
-                <input type="number" id="price" th:field="*{price}" placeholder="Enter price" required />
+                <input type="number" id="price" th:field="*{price}" placeholder="Enter price" required 
+                       onfocus="clearValue(this)" onblur="resetValue(this, 0)" />
             </div>
             <div>
                 <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" th:field="*{quantity}" placeholder="Enter quantity" required />
+                <input type="number" id="quantity" th:field="*{quantity}" placeholder="Enter quantity" required 
+                       onfocus="clearValue(this)" onblur="resetValue(this, 0)" />
             </div>
             <div>
                 <label for="description">Description:</label>
@@ -139,7 +141,7 @@
             </div>            
             <div>
                 <button type="submit">Save</button>
-                <a th:href="@{/products}">Cancel</a>
+                <a th:href="@{/admin/products}">Cancel</a>
             </div>
         </form>
     </main>
@@ -172,7 +174,19 @@
             }
         }
     </script>
+    <script>
+        function clearValue(input) {
+            if (input.value === '0' || input.value === '0.0') {
+                input.value = '';
+            }
+        }
     
+        function resetValue(input, defaultValue) {
+            if (input.value === '') {
+                input.value = defaultValue;
+            }
+        }
+    </script>
 
 </body>
 </html>

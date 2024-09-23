@@ -11,7 +11,7 @@ import com.cp.kku.housely.service.CategoryService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/categories")
+@RequestMapping("/admin/categories")
 public class CategoryController {
 
     @Autowired
