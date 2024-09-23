@@ -1,6 +1,5 @@
 package com.cp.kku.housely.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -14,7 +13,6 @@ public class ProductService {
 
     private final WebClient webClient;
 
-    @Autowired
     public ProductService(WebClient webClient) {
         this.webClient = webClient;
     }
