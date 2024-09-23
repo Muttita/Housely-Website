@@ -57,7 +57,7 @@
             display: block;
             padding: 15px 25px;
             margin: 15px auto;
-            width: 40%; 
+            width: 40%;
             background: white;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -76,32 +76,50 @@
             text-align: center;
             padding: 15px 0;
         }
+        .logout-button {
+            background-color: #f44336; /* สีแดง */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .logout-button:hover {
+            background-color: #d32f2f; /* สีแดงเข้มเมื่อ hover */
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Product Management System</h1>
-        <nav>
-            <ul>
-                <li><a th:href="@{/products}">Products</a></li>
-                <li><a th:href="@{/categories}">Categories</a></li>
-                <li><a th:href="@{/rooms}">Rooms</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <h1>Welcome to the Product Management System</h1>
+    <nav>
+        <ul>
+            <li><a th:href="@{/products}">Products</a></li>
+            <li><a th:href="@{/categories}">Categories</a></li>
+            <li><a th:href="@{/rooms}">Rooms</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-    <main>
-        <h2>Available Features</h2>
+<main>
+    <h2>Available Features</h2>
 
-        <a th:href="@{/products}" class="feature-link">Manage Products</a>
-        <a th:href="@{/categories}" class="feature-link">Manage Categories</a>
-        <a th:href="@{/rooms}" class="feature-link">Manage Rooms</a>
+    <a th:href="@{/products}" class="feature-link">Manage Products</a>
+    <a th:href="@{/categories}" class="feature-link">Manage Categories</a>
+    <a th:href="@{/rooms}" class="feature-link">Manage Rooms</a>
 
-        <p>This application helps you manage products, categories, and rooms efficiently.</p>
-    </main>
+    <p>This application helps you manage products, categories, and rooms efficiently.</p>
+</main>
 
-    <footer>
-        <p>&copy; 2024 Product Management System</p>
-    </footer>
+<footer>
+    <p>&copy; 2024 Product Management System</p>
+</footer>
 </body>
 </html>
