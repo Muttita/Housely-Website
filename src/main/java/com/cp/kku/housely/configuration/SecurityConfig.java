@@ -1,8 +1,6 @@
 package com.cp.kku.housely.configuration;
-import com.cp.kku.housely.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +20,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login") // หน้า login ที่เราจะสร้าง
-                        .defaultSuccessUrl("/products", true) // redirect ไปที่หน้า home หลังจาก login สำเร็จ
+                        .defaultSuccessUrl("/", true) // redirect ไปที่หน้า home หลังจาก login สำเร็จ
                         .permitAll() // อนุญาตให้เข้าถึงหน้า login ได้ทุกคน
                 )
                 .logout(logout -> logout
