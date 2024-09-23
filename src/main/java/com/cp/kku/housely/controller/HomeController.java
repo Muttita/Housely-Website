@@ -1,19 +1,16 @@
-package com.cp.kku.demo.controller;
+package com.cp.kku.housely.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.cp.kku.demo.service.CartService;
-import com.cp.kku.demo.service.CategoryService;
-import com.cp.kku.demo.service.ProductService;
+import org.springframework.web.bind.annotation.GetMapping;
 
 public class HomeController {
-    @Autowired
-	private CategoryService categoryService;
 
-	@Autowired
-	private ProductService productService;
+	@GetMapping("/home")
+	public String home() {
+		return "home"; // ชื่อของไฟล์ home.html
+	}
 
-	@Autowired
-	private CartService cartService;
-
+	@GetMapping("/admin/home")
+	public String adminHome(){
+		return "index";
+	}
 }
