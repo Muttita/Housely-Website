@@ -64,7 +64,7 @@ public class ProductController {
                 return "error"; // จัดการข้อผิดพลาด
             }
         }
-        productService.saveProduct(product);
+        productService.createProduct(product);
         return "redirect:/products";
     }
 
@@ -94,7 +94,7 @@ public class ProductController {
             }
         }    
         
-        productService.saveProduct(product);
+        productService.createProduct(product);
         
         try {
             // หยุดการทำงานเป็นเวลา 2 วินาที (2000 มิลลิวินาที)
