@@ -11,7 +11,7 @@ import com.cp.kku.housely.service.RoomService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/rooms")
+@RequestMapping("/admin/rooms")
 public class RoomController {
 
     @Autowired

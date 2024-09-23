@@ -54,7 +54,7 @@
                 </a>
             </div>
             <div>
-                <a th:href="@{/}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
+                <a th:href="@{/admin/home}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
                     <i class="fas fa-home h-5 w-5 mr-2"></i> กลับสู่หน้าหลัก
                 </a>
             </div>
@@ -75,8 +75,8 @@
                     <td th:text="${category.categoryName}"></td>
                     <td th:text="${category.description}"></td>
                     <td>
-                        <a th:href="@{/categories/edit/{id}(id=${category.categoryId})}" class="btn btn-warning">แก้ไข</a>
-                        <a th:href="@{/categories/delete/{id}(id=${category.categoryId})}" class="btn btn-danger" onclick="return confirmDelete()">ลบ</a>
+                        <a th:href="@{/admin/categories/edit/{id}(id=${category.categoryId})}" class="btn btn-warning">แก้ไข</a>
+                        <a th:href="@{/admin/categories/delete/{id}(id=${category.categoryId})}" class="btn btn-danger" onclick="return confirmDelete()">ลบ</a>
                     </td>
                 </tr>
             </tbody>

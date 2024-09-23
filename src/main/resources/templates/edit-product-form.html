@@ -70,7 +70,7 @@
 <body>
     <main>
         <h1>Edit Product</h1>
-        <form th:action="@{/products/save/{id}(id=${product.id})}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/admin/products/save/{id}(id=${product.id})}" th:object="${product}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}" />
             <div>
                 <label for="productCode">Product Code:</label>
@@ -130,7 +130,7 @@
     
             <div>
                 <button type="submit">Save</button>
-                <a th:href="@{/products}">Cancel</a>
+                <a th:href="@{/admin/products}">Cancel</a>
             </div>
         </form>
     </main>

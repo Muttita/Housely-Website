@@ -69,7 +69,7 @@
 
     <main>
         <h1>Add Room</h1>
-        <form th:action="@{/rooms/save}" th:object="${room}" method="post">
+        <form th:action="@{/admin/rooms/save}" th:object="${room}" method="post">
             <div>
                 <label for="roomName">Room Name:</label>
                 <input type="text" id="roomName" th:field="*{roomName}" placeholder="Enter room name" required />
@@ -80,7 +80,7 @@
             </div>
             <div>
                 <input type="submit" value="Save" />
-                <a th:href="@{/rooms}">Cancel</a>
+                <a th:href="@{/admin/rooms}">Cancel</a>
             </div>
         </form>
     </main>
