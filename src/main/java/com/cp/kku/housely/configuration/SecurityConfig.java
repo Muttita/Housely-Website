@@ -1,6 +1,5 @@
 package com.cp.kku.housely.configuration;
 
-import com.cp.kku.housely.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +24,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login") // หน้า login ที่เราจะสร้าง
-                        .defaultSuccessUrl("/products", true) // redirect ไปที่หน้า products หลังจาก login สำเร็จ
+                        .defaultSuccessUrl("/user/product", true) // redirect ไปที่หน้า products หลังจาก login สำเร็จ
                         .permitAll() // อนุญาตให้เข้าถึงหน้า login ได้ทุกคน
                 )
                 .logout(logout -> logout
