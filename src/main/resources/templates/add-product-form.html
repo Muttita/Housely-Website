@@ -7,7 +7,6 @@
     <h1>Product Form</h1>
     <form th:action="@{/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
-        <label>Product Code: <input th:field="*{productCode}" /></label><br/>
         <label>Brand Name: <input th:field="*{brandName}" /></label><br/>
         <label>Product Name: <input th:field="*{productName}" /></label><br/>
         <label>Price: <input th:field="*{price}" type="number" step="0.01" /></label><br/>

@@ -58,7 +58,7 @@ public class ProductController {
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 
                 // บันทึกเส้นทางไฟล์ในฐานข้อมูล
-                product.setImage(fileName); // ใช้ field ใหม่สำหรับเก็บเส้นทางไฟล์
+                product.setImageBase64(fileName); // ใช้ field ใหม่สำหรับเก็บเส้นทางไฟล์
             } catch (IOException e) {
                 e.printStackTrace();
                 return "error"; // จัดการข้อผิดพลาด
@@ -87,7 +87,7 @@ public class ProductController {
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 
                 // บันทึกเส้นทางไฟล์ในผลิตภัณฑ์
-                product.setImage(fileName); // เปลี่ยนให้เป็นฟิลด์สำหรับเก็บเส้นทางไฟล์
+                product.setImageBase64(fileName); // เปลี่ยนให้เป็นฟิลด์สำหรับเก็บเส้นทางไฟล์
             } catch (IOException e) {
                 e.printStackTrace();
                 return "error"; // จัดการข้อผิดพลาด

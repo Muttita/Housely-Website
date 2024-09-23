@@ -11,7 +11,7 @@ public class Product {
 	private Long id;
     private double price;
     private int quantity;
-    private String image;
+    private String imageBase64;
     private String description;
     private List<Category> categories = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();

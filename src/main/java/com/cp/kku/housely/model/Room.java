@@ -9,7 +9,7 @@ import lombok.Data;
 public class Room {
     private Long id;
     private String description;
-    private String image;
+    private String imageBase64;
     private String roomName;
     private List<Product> productsInRoom = new ArrayList<>();
 }
