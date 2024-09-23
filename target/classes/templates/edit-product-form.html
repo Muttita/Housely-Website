@@ -1,13 +1,14 @@
+<!-- หน้า edit -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Form</title>
+    <title>Edit Product</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
+        /* สไตล์ต่าง ๆ ที่ใช้เหมือนหน้า add */
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -24,7 +25,7 @@
         }
         h1 {
             text-align: center;
-            color: #4CAF50;
+            color: #4caf50;
         }
         div {
             margin-bottom: 15px;
@@ -42,7 +43,7 @@
             box-sizing: border-box;
         }
         input[type="submit"], button {
-            background-color: #4CAF50;
+            background-color: #4caf50;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -55,7 +56,7 @@
         }
         a {
             text-decoration: none;
-            color: #4CAF50;
+            color: #4caf50;
             margin-left: 10px;
         }
         a:hover {
@@ -67,11 +68,10 @@
     </style>
 </head>
 <body>
-
     <main>
-        <h1>Add Product</h1>
+        <h1>Edit Product</h1>
         <form th:action="@{/products/save/{id}(id=${product.id})}" th:object="${product}" method="post" enctype="multipart/form-data">
-            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{id}" />
             <div>
                 <label for="productCode">Product Code:</label>
                 <input type="text" id="productCode" th:field="*{productCode}" placeholder="Enter product code" required />
@@ -96,36 +96,38 @@
                 <label for="description">Description:</label>
                 <textarea id="description" th:field="*{description}" placeholder="Enter description" required></textarea>
             </div>
-             <!-- Categories with Select2 -->
-             <div class="form-section">
+            <!-- Categories with Select2 -->
+            <div class="form-section">
                 <label class="label">Categories</label>
                 <select id="categorySelect" multiple name="categoryIds">
                     <option th:each="category : ${categories}" 
                             th:value="${category.categoryId}" 
-                            th:text="${category.categoryName}"></option>
+                            th:text="${category.categoryName}"
+                            th:selected="${product.categories != null and product.categories.contains(category)}"></option>
                 </select>
             </div>
-
-        <!-- Rooms with Select2 -->
-        <div class="form-section">
-            <label class="label">Rooms</label>
-            <select id="roomSelect" multiple name="roomIds">
-                <option th:each="room : ${rooms}" 
-                        th:value="${room.id}" 
-                        th:text="${room.roomName}"></option>
-            </select>
-        </div>
-        <div>
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image" accept="image/*"/>
-            
-            <!-- Current image preview -->
-            <div th:if="${currentImagePath}">
-                <p>Current image:</p>
-                <img th:src="@{${currentImagePath}}" alt="Current product image" style="max-width: 100px; margin-top: 10px;"/>
+            <!-- Rooms with Select2 -->
+            <div class="form-section">
+                <label class="label">Rooms</label>
+                <select id="roomSelect" multiple name="roomIds">
+                    <option th:each="room : ${rooms}" 
+                            th:value="${room.id}" 
+                            th:text="${room.roomName}"
+                            th:selected="${product.rooms != null and product.rooms.contains(room)}"></option>
+                </select>
             </div>
-            
-        </div>
+            <div>
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image" accept="image/*"/>
+                
+                <!-- Current image preview -->
+                <div th:if="${currentImagePath}">
+                    <p>Current image:</p>
+                    <img th:src="@{${currentImagePath}}" alt="Current product image" style="max-width: 100px; margin-top: 10px;"/>
+                </div>
+                
+            </div>
+    
             <div>
                 <button type="submit">Save</button>
                 <a th:href="@{/products}">Cancel</a>
@@ -146,8 +148,25 @@
                 placeholder: "Select Rooms",
                 width: '100%'
             });
+
+            // ตั้งค่าตัวเลือกที่ถูกเลือกไว้ก่อนหน้า
+            var selectedCategories = [[${product.categories}]];
+            var selectedRooms = [[${product.rooms}]];
+
+            if (selectedCategories) {
+                var categoryIds = selectedCategories.map(function(category) {
+                    return category.categoryId.toString();
+                });
+                $('#categorySelect').val(categoryIds).trigger('change');
+            }
+
+            if (selectedRooms) {
+                var roomIds = selectedRooms.map(function(room) {
+                    return room.id.toString();
+                });
+                $('#roomSelect').val(roomIds).trigger('change');
+            }
         });
     </script>
-
 </body>
 </html>

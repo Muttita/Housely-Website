@@ -32,6 +32,7 @@
 
         table.table-striped thead th {
             padding: 12px;
+            white-space: nowrap; /* ป้องกันไม่ให้หัวตารางขึ้นบรรทัดใหม่ */
         }
 
         table.table-striped tbody tr:nth-child(even) {
@@ -42,18 +43,31 @@
             background-color: #e2e8f0;
             transition: background-color 0.3s ease;
         }
+
+        /* กำหนดความกว้างของแต่ละคอลัมน์ */
+        .col-fixed {
+            width: 100px;
+        }
+
+        .col-name {
+            width: 200px; /* ชื่อสินค้า */
+        }
+
+        .col-brand {
+            width: 150px; /* ยี่ห้อ */
+        }
+
         .word-break {
             word-break: break-word; /* ตัดคำให้ขึ้นบรรทัดใหม่ */
             white-space: normal; /* อนุญาตให้มีการขึ้นบรรทัดใหม่ */
             overflow-wrap: break-word; /* ให้ข้อความยาวตัดขึ้นบรรทัดใหม่ */
         }
-        
     </style>
 </head>
 
 <body>
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold" style="margin : 30px 0px 30px 0px;">รายการสินค้า</h1>
+        <h1 class="text-3xl font-bold" style="margin: 30px 0px 30px 0px;">รายการสินค้า</h1>
         
         <div class="flex justify-between mb-4">
             <div class="flex justify-end">
@@ -62,7 +76,7 @@
                 </a>
             </div>
             <div>
-                <a th:href="@{/}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
+                <a href="/" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-colors">
                     <i class="fas fa-home h-5 w-5 mr-2"></i> กลับสู่หน้าหลัก
                 </a>
             </div>
@@ -71,37 +85,39 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">รูปภาพ</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">รหัสสินค้า</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ชื่อสินค้า</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ราคา</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">จำนวนสต็อก</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">คำอธิบาย</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ประเภท</th>
-                    <th class="sortable px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ห้อง</th>
-                    <th class="px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">การดำเนินการ</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">รูปภาพ</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">รหัสสินค้า</th>
+                    <th class="col-brand px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ยี่ห้อ</th>
+                    <th class="col-name px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ชื่อสินค้า</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ราคา</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">จำนวนสต็อก</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">คำอธิบาย</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ประเภท</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">ห้อง</th>
+                    <th class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider">การดำเนินการ</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200" id="productTable">
                 <tr class="table-row" th:each="product : ${products}">
-                    <td>
+                    <td class="word-break">
                         <img th:src="@{'/uploads/' + ${product.imageBase64}}" alt="Product Image" style="width: 50px; height: 50px;" />
                     </td>
-                    <td th:text="${product.productCode}"></td>
-                    <td th:text="${product.productName}"></td>
-                    <td th:text="${product.price}"></td>
-                    <td th:text="${product.quantity}"></td>
-                    <td th:text="${product.description}"></td>
+                    <td class="word-break" th:text="${product.productCode}"></td>
+                    <td class="word-break" th:text="${product.brandName}"></td>
+                    <td class="word-break" th:text="${product.productName}"></td>
+                    <td class="word-break" th:text="${product.price}"></td>
+                    <td class="word-break" th:text="${product.quantity}"></td>
+                    <td class="word-break" th:text="${product.description}"></td>
                     <td>
                         <span th:each="category, stat : ${product.categories}">
                             <span class="word-break" th:text="${category.categoryName}"></span>
-                            <span th:if="${!stat.last}">&nbsp;</span> <!-- เพิ่มวรรคระหว่างแต่ละ category -->
+                            <span th:if="${!stat.last}">&nbsp;</span>
                         </span>
                     </td>
                     <td>
                         <span th:each="room, stat : ${product.rooms}">
-                            <span th:text="${room.roomName}"></span>
-                            <span th:if="${!stat.last}">, </span> <!-- ใส่คอมม่าและวรรคระหว่างแต่ละ category -->
+                            <span class="word-break" th:text="${room.roomName}"></span>
+                            <span th:if="${!stat.last}">, </span>
                         </span>
                     </td>
                     <td>
