@@ -18,6 +18,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/home", "/auth/register", "/auth/login").permitAll() // อนุญาตให้เข้าถึงหน้าที่ระบุได้ทุกคน
+                        .requestMatchers("/static/**", "/uploads/**", "/css/**", "/js/**")
+                        .permitAll() //
                         .requestMatchers("/admin/**").hasRole("ADMIN") // เฉพาะผู้ใช้ที่มี role ADMIN เท่านั้นที่สามารถเข้าถึง /admin/ ได้
                         .anyRequest().authenticated() // ทุก request ต้องมีการยืนยันตัวตน
                 )
