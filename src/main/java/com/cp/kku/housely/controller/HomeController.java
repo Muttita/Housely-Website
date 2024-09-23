@@ -1,16 +1,11 @@
 package com.cp.kku.housely.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.cp.kku.housely.service.CategoryService;
-import com.cp.kku.housely.service.ProductService;
+import org.springframework.web.bind.annotation.GetMapping;
 
 public class HomeController {
-    @Autowired
-	private CategoryService categoryService;
 
-	@Autowired
-	private ProductService productService;
-
-
+	@GetMapping("/home")
+	public String home() {
+		return "home"; // ชื่อของไฟล์ home.html
+	}
 }
