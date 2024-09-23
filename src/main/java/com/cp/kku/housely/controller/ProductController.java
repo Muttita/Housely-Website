@@ -62,7 +62,7 @@ public class ProductController {
         handleImageUpload(product, file);
         setProductCategoriesAndRooms(product, categoryIds, roomIds);
         productService.createProduct(product).block();
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
     @Value("${upload.path}")
     private String uploadPath;
@@ -95,7 +95,7 @@ public class ProductController {
 
         setProductCategoriesAndRooms(product, categoryIds, roomIds);
         productService.createProduct(product).block();
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 
     private void handleImageUpload(Product product, MultipartFile file) {
@@ -135,7 +135,7 @@ public class ProductController {
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id).block();
-        return "redirect:/products";
+        return "redirect:/admin/products";
     }
 }
 
