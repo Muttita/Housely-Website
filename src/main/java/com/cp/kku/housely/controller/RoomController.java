@@ -19,7 +19,7 @@ public class RoomController {
 
     @GetMapping
     public String listRooms(Model model) {
-        List<Room> rooms = roomService.getAllRooms();
+        List<Room> rooms = roomService.getAllRooms().collectList().block();
         model.addAttribute("rooms", rooms);
         return "room-list"; // Return the template for displaying rooms
     }
@@ -32,13 +32,13 @@ public class RoomController {
 
     @PostMapping("/save")
     public String saveRoom(@ModelAttribute("room") Room room) {
-        roomService.saveRoom(room);
+        roomService.createRoom(room);
         return "redirect:/rooms"; // Redirect to the room list after saving
     }
 
     @GetMapping("/edit/{id}")
     public String showEditRoomForm(@PathVariable Long id, Model model) {
-        Room room = roomService.getRoomById(id);
+        Room room = roomService.getRoomById(id).block();
         model.addAttribute("room", room);
         return "edit-room-form"; // Return the template for editing a room
     }
@@ -46,7 +46,7 @@ public class RoomController {
     @PostMapping("/save/{id}")
     public String saveRoom(@ModelAttribute("room") Room room, @PathVariable Long id) {
     	room.setId(id);
-        roomService.saveRoom(room);
+        roomService.createRoom(room);
         return "redirect:/rooms"; // Redirect to the room list after saving
     }
 

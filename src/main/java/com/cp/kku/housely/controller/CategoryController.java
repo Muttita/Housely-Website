@@ -19,7 +19,7 @@ public class CategoryController {
 
     @GetMapping
     public String listCategories(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.getAllCategories().collectList().block();
         model.addAttribute("categories", categories);
         return "category-list"; // Return the template for displaying categories
     }
@@ -32,13 +32,13 @@ public class CategoryController {
 
     @PostMapping("/save")
     public String saveCategory(@ModelAttribute("category") Category category) {
-        categoryService.saveCategory(category);
+        categoryService.createCategory(category);
         return "redirect:/categories"; // Redirect to the category list after saving
     }
 
     @GetMapping("/edit/{id}")
     public String showEditCategoryForm(@PathVariable Long id, Model model) {
-        Category category = categoryService.getCategoryById(id);
+        Category category = categoryService.getCategoryById(id).block();
         model.addAttribute("category", category);
         return "edit-category-form"; // Return the template for editing a category
     }
@@ -46,7 +46,7 @@ public class CategoryController {
     @PostMapping("/save/{id}")
     public String updateCategory(@ModelAttribute("category") Category category, @PathVariable Long id) {
     	category.setCategoryId(id);
-        categoryService.saveCategory(category);
+        categoryService.createCategory(category);
         return "redirect:/categories"; // Redirect to the category list after saving
     }
     

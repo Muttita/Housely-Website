@@ -1,6 +1,5 @@
 package com.cp.kku.housely.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,7 +12,6 @@ import reactor.core.publisher.Mono;
 public class RoomService {
     private final WebClient webClient;
 
-    @Autowired
     public RoomService(WebClient webclient) {
         this.webClient = webclient;
     }
