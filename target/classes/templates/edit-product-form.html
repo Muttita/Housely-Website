@@ -115,10 +115,17 @@
                         th:text="${room.roomName}"></option>
             </select>
         </div>
-            <div>
-                <label for="image">Image:</label>
-                <input type="file" id="image" name="image" accept="image/*" required/>
+        <div>
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*"/>
+            
+            <!-- Current image preview -->
+            <div th:if="${currentImagePath}">
+                <p>Current image:</p>
+                <img th:src="@{${currentImagePath}}" alt="Current product image" style="max-width: 100px; margin-top: 10px;"/>
             </div>
+            
+        </div>
             <div>
                 <button type="submit">Save</button>
                 <a th:href="@{/products}">Cancel</a>
