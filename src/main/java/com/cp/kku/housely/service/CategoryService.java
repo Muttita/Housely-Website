@@ -1,33 +1,68 @@
 package com.cp.kku.housely.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.cp.kku.housely.model.Category;
-import com.cp.kku.housely.repository.CategoryRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 
 @Service
 public class CategoryService {
 
+    private final WebClient webClient;
+
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public CategoryService(WebClient webClient){
+        this.webClient =webClient;
     }
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+    public Flux<Category> getAllCategories(){
+        return webClient.get()
+        .uri("/categories")
+        .retrieve()
+        .bodyToFlux(Category.class);
     }
 
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
+    public Mono<Category> getCategoryById(Long id){
+        return webClient.get()
+        .uri("/categories/{id}",id)
+        .retrieve()
+        .bodyToMono(Category.class);
     }
 
-    public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+    public Mono<Category> createCategory(Category category){
+        return webClient.post()
+        .uri("/categories/add")
+        .bodyValue(category)
+        .retrieve()
+        .onStatus(
+                    status -> status.is4xxClientError() || status.is5xxServerError(),
+                    response -> Mono.error(new RuntimeException("Error creating department"))
+                )
+        .bodyToMono(Category.class);
+    }
+
+    public Mono<Category> updateCategory(Long id,Category category){
+        return webClient.put()
+        .uri("/categories/update/{id}",id)
+        .bodyValue(category)
+        .retrieve()
+        .onStatus(
+                    status -> status.is4xxClientError() || status.is5xxServerError(),
+                    response -> Mono.error(new RuntimeException("Error creating department"))
+                )
+        .bodyToMono(Category.class);
+    }
+
+    public Mono<Void> deleteCategory(Long id){
+        return webClient.delete()
+        .uri("/categories/delete/{id}",id)
+        .retrieve()
+        .bodyToMono(Void.class);
     }
 }
 

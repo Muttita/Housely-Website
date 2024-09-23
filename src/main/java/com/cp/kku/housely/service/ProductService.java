@@ -1,33 +1,64 @@
 package com.cp.kku.housely.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.cp.kku.housely.model.Product;
-import com.cp.kku.housely.repository.ProductRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class ProductService {
 
+    private final WebClient webClient;
+
     @Autowired
-    private ProductRepository productRepository;
-
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public ProductService(WebClient webClient) {
+        this.webClient = webClient;
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
+    public Flux<Product> getAllProducts() {
+        return webClient.get()
+                .uri("/products")
+                .retrieve()
+                .bodyToFlux(Product.class);
     }
 
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
+    public Mono<Product> getProductById(Long id) {
+        return webClient.get()
+                .uri("/products/{id}", id)
+                .retrieve()
+                .bodyToMono(Product.class);
     }
 
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    public Mono<Product> createProduct(Product product) {
+        return webClient.post()
+                .uri("/products/add")
+                .bodyValue(product)
+                .retrieve()
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        response -> Mono.error(new RuntimeException("Error creating department")))
+                .bodyToMono(Product.class);
+    }
+
+    public Mono<Product> updateProduct(Long id, Product product) {
+        return webClient.put()
+                .uri("/products/update/{id}", id)
+                .bodyValue(product)
+                .retrieve()
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        response -> Mono.error(new RuntimeException("Error creating department")))
+                .bodyToMono(Product.class);
+    }
+
+    public Mono<Void> deleteProduct(Long id){
+        return webClient.delete()
+        .uri("/products/delete/{id}",id)
+        .retrieve()
+        .bodyToMono(Void.class);
     }
 }
-

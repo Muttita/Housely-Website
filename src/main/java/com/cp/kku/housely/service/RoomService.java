@@ -1,32 +1,66 @@
 package com.cp.kku.housely.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.cp.kku.housely.model.Room;
-import com.cp.kku.housely.repository.RoomRepository;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class RoomService {
+    private final WebClient webClient;
 
     @Autowired
-    private RoomRepository roomRepository;
-
-    public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+    public RoomService(WebClient webclient) {
+        this.webClient = webClient;
     }
 
-    public Room getRoomById(Long id) {
-        return roomRepository.findById(id).orElse(null);
+    public Flux<Room> getAllRooms() {
+        return webClient.get()
+                .uri("/rooms")
+                .retrieve()
+                .bodyToFlux(Room.class);
     }
 
-    public Room saveRoom(Room room) {
-        return roomRepository.save(room);
+    public Mono<Room> getRoomById(Long id) {
+        return webClient.get()
+                .uri("/rooms/{id}", id)
+                .retrieve()
+                .bodyToMono(Room.class);
     }
 
-    public void deleteRoom(Long id) {
-        roomRepository.deleteById(id);
+    public Mono<Room> createRoom(Room room){
+        return webClient.post()
+        .uri("/rooms/add")
+        .bodyValue(room)
+        .retrieve()
+        .onStatus(
+            status -> status.is4xxClientError() || status.is5xxServerError(),
+            response -> Mono.error(new RuntimeException("Error creating department"))
+        )
+        .bodyToMono(Room.class);
     }
+
+    public Mono<Room> updateRoom(Long id,Room room){
+        return webClient.put()
+        .uri("/rooms/update/{id}",id)
+        .bodyValue(room)
+        .retrieve()
+        .onStatus(
+            status -> status.is4xxClientError() || status.is5xxServerError(),
+            response -> Mono.error(new RuntimeException("Error creating department"))
+        )
+        .bodyToMono(Room.class);
+    }
+
+    public Mono<Void> deleteRoom(Long id){
+        return webClient.delete()
+        .uri("/rooms/delete/{id}",id)
+        .retrieve()
+        .bodyToMono(Void.class);
+    }
+
 }
