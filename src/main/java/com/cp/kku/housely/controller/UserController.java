@@ -1,16 +1,21 @@
 package com.cp.kku.housely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.cp.kku.housely.service.ProductService;
+import com.cp.kku.housely.model.Product;
 import com.cp.kku.housely.service.CategoryService;
 import com.cp.kku.housely.service.RoomService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.websocket.server.PathParam;
+import reactor.core.publisher.Mono;
 
 @Controller
 @RequestMapping("/user")
@@ -54,6 +59,14 @@ public class UserController {
         
         return "user-product";
     }
+
+    @PutMapping("/decreaseQuantity/{id}")
+    public Mono<ResponseEntity<Product>> decreaseProductQuantity(@PathVariable Long id, @RequestParam int quantity) {
+        return productService.decreaseProductQuantity(id, quantity)
+                .map(product -> ResponseEntity.ok(product))
+                .switchIfEmpty(Mono.just(ResponseEntity.badRequest().build()));
+    }
+
 
 
 

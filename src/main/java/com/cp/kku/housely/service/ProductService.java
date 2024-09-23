@@ -74,5 +74,16 @@ public class ProductService {
         .bodyToFlux(Product.class);
     }
 
+    public Mono<Product> decreaseProductQuantity(Long id, int quantity) {
+        return webClient.put()
+                .uri("/products/decreaseQuantity/{id}?quantity={quantity}", id, quantity)
+                .retrieve()
+                .onStatus(
+                        status -> status.is4xxClientError() || status.is5xxServerError(),
+                        response -> Mono.error(new RuntimeException("Error decreasing product quantity")))
+                .bodyToMono(Product.class);
+    }
+    
+
 
 }

@@ -104,20 +104,34 @@
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         function addToCart(button) {
-            const productId = button.getAttribute('data-id');
-            const productName = button.getAttribute('data-name');
-            const productPrice = parseFloat(button.getAttribute('data-price'));
+        const productId = button.getAttribute('data-id');
+        const productName = button.getAttribute('data-name');
+        const productPrice = parseFloat(button.getAttribute('data-price'));
+        const productQuantity = parseInt(button.closest('.bg-white').querySelector('span.text-sm.text-gray-500').textContent.split(': ')[1]);
 
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) {
+            // ตรวจสอบจำนวนที่มีอยู่ในคลัง
+            if (existingItem.quantity < productQuantity) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
+                alert('ไม่สามารถเพิ่มสินค้ามากกว่าที่มีอยู่ในคลัง');
+                return;
             }
-
-            updateCartDisplay();
-            localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกตะกร้าใน localStorage
+        } else {
+            // ถ้าสินค้านี้ยังไม่มีในตะกร้า
+            if (1 <= productQuantity) {
+                cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
+            } else {
+                alert('ไม่สามารถเพิ่มสินค้ามากกว่าที่มีอยู่ในคลัง');
+                return;
+            }
         }
+
+        updateCartDisplay();
+        localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกตะกร้าใน localStorage
+    }
+
 
         function updateCartDisplay() {
             const cartItemsElement = document.getElementById('cartItems');
@@ -129,6 +143,8 @@
                 li.innerHTML = `
                     <span>${item.name} x ${item.quantity}</span>
                     <span>${(item.price * item.quantity).toFixed(2)} บาท</span>
+                    <button onclick="removeFromCart('${item.id}')" class="text-red-500 hover:text-red-700 ml-4">ลบ</button>
+                    <button onclick="decreaseQuantity('${item.id}')" class="text-yellow-500 hover:text-yellow-700 ml-2">ลดจำนวน</button>
                 `;
                 cartItemsElement.appendChild(li);
             });
@@ -136,6 +152,28 @@
             const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             document.getElementById('totalAmount').textContent = total.toFixed(2);
         }
+
+        function decreaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                if (item.quantity > 1) {
+                    item.quantity -= 1; // ลดจำนวนสินค้า
+                } else {
+                    // หากจำนวนสินค้าถึง 1 ให้ลบออกจากตะกร้า
+                    removeFromCart(productId);
+                }
+                updateCartDisplay(); // อัปเดตการแสดงผล
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId); // ลบสินค้าออกจากตะกร้า
+            updateCartDisplay(); // อัปเดตการแสดงผล
+            localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกตะกร้าใน localStorage
+        }
+
+
+
 
         function checkout() {
             if (cart.length === 0) {
@@ -145,7 +183,25 @@
 
             // แสดงยอดรวมสำหรับการชำระเงิน
             let totalAmount = document.getElementById('totalAmount').textContent;
-            alert('ชำระเงินเรียบร้อย! ยอดรวม: ' + totalAmount + ' บาท');
+            if (confirm('คุณต้องการชำระเงิน? ยอดรวม: ' + totalAmount + ' บาท')) {
+            // ปรับปรุงจำนวนสินค้าในฐานข้อมูล
+            let promises = cart.map(item => {
+                return updateProductQuantity(item.id, item.quantity);
+            });
+
+            // รอให้การอัปเดตทั้งหมดเสร็จสิ้น
+            Promise.all(promises)
+                .then(() => {
+                    alert('ชำระเงินเรียบร้อย! ยอดรวม: ' + totalAmount + ' บาท');
+                    // ลบข้อมูลตะกร้าใน localStorage
+                    cart = [];
+                    localStorage.removeItem('cart');
+                    updateCartDisplay();
+                })
+                .catch(error => {
+                    console.error('เกิดข้อผิดพลาดในการอัปเดตจำนวนสินค้า:', error);
+                });
+        }
 
             // ปรับปรุงจำนวนสินค้าในฐานข้อมูล (ถ้ามี)
             cart.forEach(item => {
@@ -186,6 +242,7 @@
                 console.error('There was a problem with the fetch operation:', error);
             });
         }
+
 
         
     </script>
