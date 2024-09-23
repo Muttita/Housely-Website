@@ -40,6 +40,10 @@
         <p><strong>Name: </strong> <span th:text="${product.productName}"></span></p>
         <p><strong>Brand: </strong> <span th:text="${product.brandName}"></span></p>
         <p><strong>Price: </strong> <span th:text="${product.price}"></span></p>
+        <div class="quantity">
+            <label for="quantity">จำนวน:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1" />
+        </div>
         <p><strong>Description: </strong> <span th:text="${product.description}"></span></p>
     </div>
     <a th:href="${'/user/product'}" class="back-link">เพิ่มลงตะกร้า</a>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Success</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Link to Font Awesome -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            height: 100vh; /* Full height of the viewport */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            
+        }
+        h1 {
+            color: #333;
+        }
+        .message {
+            font-size: 18px;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            color: white;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .icon {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-check-circle icon"></i> Order Successfully Placed!</h1>
+        <div class="message">
+            Thank you for your order! Your order has been successfully placed.
+        </div>
+        <div class="button-container">
+            <a th:href="@{/user/product/order/{orderId}(orderId=${orderId})}" class="button">
+                <i class="fas fa-eye icon"></i> View Order Details
+            </a>
+            <a th:href="@{/user/product}" class="button">
+                <i class="fas fa-arrow-left icon"></i> Back to Products
+            </a>
+        </div>
+    </div>
+</body>
+</html>
