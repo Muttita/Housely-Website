@@ -37,7 +37,7 @@ public class RoomService {
         .retrieve()
         .onStatus(
             status -> status.is4xxClientError() || status.is5xxServerError(),
-            response -> Mono.error(new RuntimeException("Error creating department"))
+            response -> Mono.error(new RuntimeException("Error creating room"))
         )
         .bodyToMono(Room.class);
     }
@@ -49,7 +49,7 @@ public class RoomService {
         .retrieve()
         .onStatus(
             status -> status.is4xxClientError() || status.is5xxServerError(),
-            response -> Mono.error(new RuntimeException("Error creating department"))
+            response -> Mono.error(new RuntimeException("Error updating room"))
         )
         .bodyToMono(Room.class);
     }

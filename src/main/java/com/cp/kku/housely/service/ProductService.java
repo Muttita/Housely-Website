@@ -38,7 +38,7 @@ public class ProductService {
                 .retrieve()
                 .onStatus(
                         status -> status.is4xxClientError() || status.is5xxServerError(),
-                        response -> Mono.error(new RuntimeException("Error creating department")))
+                        response -> Mono.error(new RuntimeException("Error creating product")))
                 .bodyToMono(Product.class);
     }
 
@@ -49,7 +49,7 @@ public class ProductService {
                 .retrieve()
                 .onStatus(
                         status -> status.is4xxClientError() || status.is5xxServerError(),
-                        response -> Mono.error(new RuntimeException("Error creating department")))
+                        response -> Mono.error(new RuntimeException("Error updating product")))
                 .bodyToMono(Product.class);
     }
 

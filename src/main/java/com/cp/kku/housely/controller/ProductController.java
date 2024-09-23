@@ -35,15 +35,15 @@ public class ProductController {
 
     @GetMapping
     public String listProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getAllProducts().collectList().block());
         return "product-list";
     }
 
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("rooms", roomService.getAllRooms());
+        model.addAttribute("categories", categoryService.getAllCategories().collectList().block());
+        model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
 
         return "add-product-form";
     }
@@ -64,15 +64,15 @@ public class ProductController {
                 return "error"; // จัดการข้อผิดพลาด
             }
         }
-        productService.createProduct(product);
+        productService.createProduct(product).block();
         return "redirect:/products";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productService.getProductById(id));
-        model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("rooms", roomService.getAllRooms());
+        model.addAttribute("product", productService.getProductById(id).block());
+        model.addAttribute("categories", categoryService.getAllCategories().collectList().block());
+        model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
         return "edit-product-form";
     }
     
@@ -94,21 +94,15 @@ public class ProductController {
             }
         }    
         
-        productService.createProduct(product);
+        productService.createProduct(product).block();
         
-        try {
-            // หยุดการทำงานเป็นเวลา 2 วินาที (2000 มิลลิวินาที)
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return "redirect:/products"; 
     }
 
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        productService.deleteProduct(id).block();
         return "redirect:/products";
     }
 }
