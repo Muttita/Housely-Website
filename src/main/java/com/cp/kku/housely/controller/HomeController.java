@@ -8,4 +8,9 @@ public class HomeController {
 	public String home() {
 		return "home"; // ชื่อของไฟล์ home.html
 	}
+
+	@GetMapping("/admin/home")
+	public String adminHome(){
+		return "index";
+	}
 }
