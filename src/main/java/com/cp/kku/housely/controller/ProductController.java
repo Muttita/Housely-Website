@@ -39,6 +39,13 @@ public class ProductController {
     @Autowired
     private RoomService roomService;
 
+    @GetMapping("/detail/{id}")
+    public String showProductDetail(@PathVariable Long id, Model model) {
+        model.addAttribute("product", productService.getProductById(id).block());
+        return "productDetail";
+    }
+    
+
     @GetMapping
     public String listProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts().collectList().block());
@@ -62,6 +69,12 @@ public class ProductController {
         handleImageUpload(product, file);
         setProductCategoriesAndRooms(product, categoryIds, roomIds);
         productService.createProduct(product).block();
+        try {
+            Thread.sleep(500); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
         return "redirect:/admin/products";
     }
     @Value("${upload.path}")
@@ -95,6 +108,11 @@ public class ProductController {
 
         setProductCategoriesAndRooms(product, categoryIds, roomIds);
         productService.createProduct(product).block();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }        
         return "redirect:/admin/products";
     }
 

@@ -16,6 +16,7 @@
             background: linear-gradient(to bottom, #DFF3EA, #C2E4EF, #DFF3EA);
             height: 100vh;
             margin: 0;
+            user-select: none;
         }
 
         table {
@@ -280,8 +281,8 @@
                     <td th:text="${room.roomName}"></td>
                     <td th:text="${room.description}"></td>
                     <td class="action-buttons">
-                        <a th:href="@{/admin/rooms/edit/{id}(id=${room.id})}" class="edit-button">แก้ไข</a>
-                        <a th:href="@{/admin/rooms/delete/{id}(id=${room.id})}" class="delete-button" onclick="return confirmDelete()">ลบ</a>
+                        <a th:href="@{/admin/rooms/edit/{id}(id=${room.id})}" class="edit-button">Edit</a>
+                        <a th:href="@{/admin/rooms/delete/{id}(id=${room.id})}" class="delete-button" onclick="return confirmDelete()">Delete</a>
                     </td>
                 </tr>
             </tbody>

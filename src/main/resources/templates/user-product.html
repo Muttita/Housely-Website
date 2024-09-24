@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Housely - ระบบขายหน้าร้าน</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script>
@@ -13,7 +13,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Prompt', 'sans-serif'],
+                        sans: ['Anuphan', 'sans-serif'], // เปลี่ยนฟอนต์เป็น Anuphan
                     },
                 }
             }
@@ -21,46 +21,81 @@
     </script>
     <style>
         body {
-            font-family: 'Prompt', sans-serif;
+            font-family: "Anuphan", sans-serif; // ฟอนต์ของ body
+            font-size: 16px;
+            color: #333;
+            background: linear-gradient(to bottom, #DFF3EA, #C2E4EF, #DFF3EA);
+            height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+        .logout-button {
+            background-color: rgba(255, 255, 255, 0.55); /* สีขาวโปร่งใส 55% */
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        .logout-button i {
+            margin-right: 8px;
+        }
+        .logout-button:hover {
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+        header {
+            background: transparent;
+            color: #000;
+            padding: 15px;
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+        }
+        header h1 {
+            font-family: 'Aboreto', cursive;
+            font-size: 2.2em;
+            margin: 0;
         }
     </style>
 </head>
 <body class="bg-gray-100">
-    <nav class="bg-white shadow-lg">
+<header>
+    <h1><a href ="/admin/home">HOUSELY</a></h1>
+    <nav class="bg-transparent shadow-none"> <!-- เปลี่ยนเป็น bg-transparent และ shadow-none -->
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between">
-                <div class="flex space-x-7">
-                    <div>
-                        <a href="#" class="flex items-center py-4 px-2">
-                            <span class="font-semibold text-gray-500 text-lg">Housely POS</span>
-                        </a>
-                    </div>
+                <div class="flex space-x-7">                                     
                 </div>
                 <div class="hidden md:flex items-center space-x-3">
-                    <a href="/user/product" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">สินค้า</a>
-                    <select class="py-2 px-2 text-gray-500 font-semibold bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="location = this.value; showSelectedRoom(this);">
+                    <a href="/user/product" class="py-4 px-2 text-black-500 font-semibold hover:text-black-500 transition duration-300">สินค้า</a>
+                    <select class="py-2 px-2 text-black-500 font-semibold bg-white border border-black-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black-500" onchange="location = this.value; showSelectedRoom(this);">
                         <option value="">เลือกหมวดหมู่</option>
                         <option th:each="cate : ${categorys}" 
                                 th:value="@{/user/product/category/{id}(id=${cate.categoryId})}" 
                                 th:text="${cate.categoryName}"></option>
                     </select>
-                    <select class="py-2 px-2 text-gray-500 font-semibold bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="location = this.value; showSelectedRoom(this);">
+                    <select class="py-2 px-2 text-black-500 font-semibold bg-white border border-black-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black-500" onchange="location = this.value; showSelectedRoom(this);">
                         <option value="">เลือกห้อง</option>
                         <option th:each="room : ${rooms}" 
                                 th:value="@{/user/product/room/{id}(id=${room.id})}" 
                                 th:text="${room.roomName}"></option>
                     </select>
-                    <a href="/user/orders" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">คำสั่งซื้อ</a>
-                    <a href="#" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">
+                    <a href="#" class="py-4 px-2 text-black-500 font-semibold hover:text-black-500 transition duration-300">คำสั่งซื้อ</a>
+                    <a href="#" id="userMenuButton" class="py-4 px-2 text-black-500 font-semibold hover:text-black-500 transition duration-300">
                         <i class="fas fa-user mr-2"></i> <!-- User icon -->
                         <span th:text="${userName}"></span>
+                        <div id="userDropdown" class="absolute hidden bg-white border border-black-300 rounded-md shadow-lg mt-2">
+                            <form th:action="@{/logout}" method="post" style="display:inline;">
+                                <button type="submit" class="logout-button"><i class="fas fa-sign-out-alt"></i>Logout</button> <!-- เพิ่มไอคอน Logout -->
+                            </form>
+                        </div>
                     </a>
-                    
-
                 </div>
             </div>
         </div>
     </nav>
+</header>
 
     <div class="container mx-auto px-4 py-8">
         <div class="flex flex-wrap -mx-4">
@@ -77,15 +112,16 @@
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="productList">
                     <div th:each="product : ${products}" class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105">
-                        <img th:src="@{'/uploads/' + ${product.imageBase64}}" class="w-full h-32 object-cover" alt="Product Image">
+                        <a th:href="@{'/user/product/' + ${product.id}}">
+                            <img th:src="@{'/uploads/' + ${product.imageBase64}}" class="w-full h-32 object-cover" alt="Product Image">
+                        </a>                        
                         <div class="p-4">
                             <h5 class="text-lg font-semibold mb-2" th:text="${product.productName}"></h5>
-                            <p class="text-sm text-gray-600 mb-2" th:text="${product.description}"></p>
                             <div class="flex justify-between items-center">
                                 <span class="text-lg font-bold text-blue-600" th:text="${#numbers.formatCurrency(product.price)}"></span>
                                 <span class="text-sm text-gray-500" th:text="${'จำนวน: ' + product.quantity}"></span>
                             </div>
-                            <button onclick="addToCart(this)" th:data-id="${product.id}" th:data-name="${product.productName}" th:data-price="${product.price}" class="mt-2 w-full bg-blue-500 text-white py-1 px-2 rounded text-sm hover:bg-blue-600 transition duration-300">เพิ่มลงตะกร้า</button>
+                            <button onclick="addToCart(this)" th:data-id="${product.id}" th:data-name="${product.productName}" th:data-price="${product.price}" class="mt-2 w-full bg-black text-white py-1 px-2 rounded text-sm hover:bg-gray-800 transition duration-300">เพิ่มลงตะกร้า</button>
                         </div>
                     </div>
                 </div>
@@ -101,7 +137,7 @@
                     <div class="border-t pt-4">
                         <p class="text-xl font-bold">ยอดรวม: <span id="totalAmount">0</span> บาท</p>
                     </div>
-                    <button onclick="checkout()" class="mt-4 w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300">ชำระเงิน</button>
+                    <button onclick="checkout()" class="mt-4 w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition duration-300">ชำระเงิน</button>
                 </div>
             </div>
         </div>
@@ -111,34 +147,31 @@
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         function addToCart(button) {
-        const productId = button.getAttribute('data-id');
-        const productName = button.getAttribute('data-name');
-        const productPrice = parseFloat(button.getAttribute('data-price'));
-        const productQuantity = parseInt(button.closest('.bg-white').querySelector('span.text-sm.text-gray-500').textContent.split(': ')[1]);
+            const productId = button.getAttribute('data-id');
+            const productName = button.getAttribute('data-name');
+            const productPrice = parseFloat(button.getAttribute('data-price'));
+            const productQuantity = parseInt(button.closest('.bg-white').querySelector('span.text-sm.text-gray-500').textContent.split(': ')[1]);
 
-        const existingItem = cart.find(item => item.id === productId);
-        if (existingItem) {
-            // ตรวจสอบจำนวนที่มีอยู่ในคลัง
-            if (existingItem.quantity < productQuantity) {
-                existingItem.quantity += 1;
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                if (existingItem.quantity < productQuantity) {
+                    existingItem.quantity += 1;
+                } else {
+                    alert('ไม่สามารถเพิ่มสินค้ามากกว่าที่มีอยู่ในคลัง');
+                    return;
+                }
             } else {
-                alert('ไม่สามารถเพิ่มสินค้ามากกว่าที่มีอยู่ในคลัง');
-                return;
+                if (1 <= productQuantity) {
+                    cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
+                } else {
+                    alert('ไม่สามารถเพิ่มสินค้ามากกว่าที่มีอยู่ในคลัง');
+                    return;
+                }
             }
-        } else {
-            // ถ้าสินค้านี้ยังไม่มีในตะกร้า
-            if (1 <= productQuantity) {
-                cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
-            } else {
-                alert('ไม่สามารถเพิ่มสินค้ามากกว่าที่มีอยู่ในคลัง');
-                return;
-            }
+
+            updateCartDisplay();
+            localStorage.setItem('cart', JSON.stringify(cart));
         }
-
-        updateCartDisplay();
-        localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกตะกร้าใน localStorage
-    }
-
 
         function updateCartDisplay() {
             const cartItemsElement = document.getElementById('cartItems');
@@ -163,158 +196,50 @@
         function decreaseQuantity(productId) {
             const item = cart.find(item => item.id === productId);
             if (item) {
-                if (item.quantity > 1) {
-                    item.quantity -= 1; // ลดจำนวนสินค้า
-                } else {
-                    // หากจำนวนสินค้าถึง 1 ให้ลบออกจากตะกร้า
-                    removeFromCart(productId);
+                item.quantity -= 1;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
                 }
-                updateCartDisplay(); // อัปเดตการแสดงผล
+                updateCartDisplay();
+                localStorage.setItem('cart', JSON.stringify(cart));
             }
         }
 
         function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId); // ลบสินค้าออกจากตะกร้า
-            updateCartDisplay(); // อัปเดตการแสดงผล
-            localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกตะกร้าใน localStorage
+            cart = cart.filter(item => item.id !== productId);
+            updateCartDisplay();
+            localStorage.setItem('cart', JSON.stringify(cart));
         }
-
-
-
 
         function checkout() {
             if (cart.length === 0) {
                 alert('กรุณาเพิ่มสินค้าในตะกร้าก่อนชำระเงิน');
-                return;
-            }
-
-            // แสดงยอดรวมสำหรับการชำระเงิน
-            let totalAmount = document.getElementById('totalAmount').textContent;
-            if (confirm('คุณต้องการชำระเงิน? ยอดรวม: ' + totalAmount + ' บาท')) {
-            // ปรับปรุงจำนวนสินค้าในฐานข้อมูล
-            let promises = cart.map(item => {
-                return updateProductQuantity(item.id, item.quantity);
-            });
-
-            // รอให้การอัปเดตทั้งหมดเสร็จสิ้น
-            Promise.all(promises)
-                .then(() => {
-                    alert('ชำระเงินเรียบร้อย! ยอดรวม: ' + totalAmount + ' บาท');
-                    // ลบข้อมูลตะกร้าใน localStorage
-                    cart = [];
-                    localStorage.removeItem('cart');
-                    updateCartDisplay();
-                })
-                .catch(error => {
-                    console.error('เกิดข้อผิดพลาดในการอัปเดตจำนวนสินค้า:', error);
-                });
-        }
-
-            // ปรับปรุงจำนวนสินค้าในฐานข้อมูล (ถ้ามี)
-            cart.forEach(item => {
-                // สมมติว่าคุณมีฟังก์ชัน updateProductQuantity เพื่ออัปเดตจำนวนในฐานข้อมูล
-                updateProductQuantity(item.id, item.quantity);
-            });
-
-            // ลบข้อมูลตะกร้าใน localStorage
-            cart = [];
-            localStorage.removeItem('cart');
-            updateCartDisplay();
-        }
-
-        // โหลดค่าตะกร้าจาก localStorage เมื่อหน้าโหลด
-        window.onload = function() {
-            const savedCart = JSON.parse(localStorage.getItem('cart'));
-            if (savedCart) {
-                cart = savedCart;
+            } else {
+                // Redirect to checkout page or process checkout
+                alert('ชำระเงินสำเร็จ');
+                localStorage.removeItem('cart'); // Clear cart after checkout
+                cart = [];
                 updateCartDisplay();
             }
         }
 
-        function updateProductQuantity(productId, quantity) {
-        // เชื่อมต่อ API เพื่อลดจำนวนสินค้า
-        fetch(`/api/products/${productId}/decrease?quantity=${quantity}`, {
-            method: 'PUT'
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Quantity decreased:', data);
+        // ตัวอย่างการแสดงชื่อห้องที่เลือก
+        function showSelectedRoom(select) {
+            const roomTitle = document.getElementById('selectedRoomTitle');
+            roomTitle.textContent = select.options[select.selectedIndex].text;
+        }
 
-            // หลังจากลดจำนวนสินค้าแล้ว อัปเดตจำนวนสินค้าในฐานข้อมูล
-            // สมมติว่าเราต้องการลดจำนวนอีกครั้งหรือตั้งค่าใหม่
-            const newQuantity = data.quantity; // อัปเดตจำนวนใหม่จากข้อมูลที่ได้รับ
-            return fetch(`/api/products/${productId}/updateQuantity`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ quantity: newQuantity }) // ใช้ข้อมูลใหม่ที่ได้รับ
-            });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok during update');
-            }
-            return response.json();
-        })
-        .then(updatedData => {
-            console.log('Quantity updated in the database:', updatedData);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+        document.getElementById('userMenuButton').addEventListener('click', function() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
         });
-    }
 
-
-
-        
-    </script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            // ฟังก์ชันเพื่อแสดงชื่อห้องที่เลือก และเก็บชื่อห้องไว้ใน localStorage
-            function showSelectedRoom(selectElement) {
-                const selectedRoomName = selectElement.options[selectElement.selectedIndex].text;
-
-                if (selectElement.value !== "") {
-                    document.getElementById("selectedRoomTitle").innerText = selectedRoomName;
-                    localStorage.setItem("selectedRoomName", selectedRoomName);
-                } else {
-                    document.getElementById("selectedRoomTitle").innerText = "";
-                    localStorage.removeItem("selectedRoomName");
-                }
-
-                // เก็บค่า cart ใน localStorage เพื่อไม่ให้หายไป
-                localStorage.setItem("cart", JSON.stringify(cart));
+        window.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            if (!event.target.matches('#userMenuButton')) {
+                dropdown.classList.add('hidden');
             }
-        
-            // เมื่อหน้าเว็บถูกโหลด ให้แสดงชื่อห้องจาก localStorage (ถ้ามี) และโหลดค่า cart
-            window.onload = function() {
-                const savedRoomName = localStorage.getItem("selectedRoomName");
-                const savedCart = JSON.parse(localStorage.getItem("cart")) || []; // โหลดค่าตะกร้าจาก localStorage
-                cart = savedCart; // ตั้งค่าตะกร้าเป็นค่าที่โหลดจาก localStorage
-
-                // อัปเดตการแสดงผลของตะกร้า
-                updateCartDisplay();
-
-                const currentPath = window.location.pathname; // รับ URL ปัจจุบัน
-
-                // ตรวจสอบว่าหน้าเป็นหน้าที่ต้องการแสดงชื่อห้องหรือไม่
-                if (currentPath.includes("/product/category")) { // ปรับให้ตรงกับ URL ที่ต้องการ
-                    if (savedRoomName) {
-                        document.getElementById("selectedRoomTitle").innerText = savedRoomName;
-                    }
-                } else {
-                    // ถ้าไม่ใช่หน้า /product ให้ซ่อน h1
-                    document.getElementById("selectedRoomTitle").style.display = "none";
-                }
-            };
-        </script>
+        });
+    </script>
 </body>
 </html>

@@ -42,6 +42,7 @@ public class UserController {
         model.addAttribute("userName", getCurrentUserId());
         return "user-product";
     }
+ 
 
     public String getCurrentUserId() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,7 +57,7 @@ public class UserController {
     @GetMapping("/product/{id}")
     public String getViewProductById(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id).block());
-        return "user-product-detail";
+        return "productDetailUser";
     }
 
     @GetMapping("/product/category/{id}")

@@ -55,12 +55,6 @@ public class RoomController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteRoom(@PathVariable Long id) {
-        roomService.deleteRoom(id).block();
-        return "redirect:/admin/rooms"; // Redirect to the room list after deletion
-    }
-
-    @GetMapping("/delete/{id}")
 public String deleteRoom(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     try {
         roomService.deleteRoom(id).block();

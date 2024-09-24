@@ -16,6 +16,7 @@
             margin: 0;
             padding: 0;
             user-select: none;
+            color: #333;
             background-color: #DFF3EA;
         }
         header {
@@ -23,8 +24,8 @@
             color: #000;
             padding: 15px;
             display: flex;
-            justify-content: space-between; /* จัดตำแหน่งโลโก้และปุ่ม Logout */
-            align-items: center; /* จัดให้อยู่กึ่งกลางแนวตั้ง */
+            justify-content: space-between;
+            align-items: center;
         }
         header h1 {
             font-family: 'Aboreto', cursive;
@@ -62,6 +63,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap; /* Allow items to wrap */
         }
         .feature-box {
             background: rgba(255, 255, 255, 0.55); /* กล่องสีขาวโปร่งใส 55% */
@@ -88,6 +90,29 @@
         .feature-link {
             text-decoration: none;
             color: inherit;
+        }
+        .combined-box {
+            background: rgba(255, 255, 255, 0.55); 
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: calc(600px + 40px); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .combined-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        } 
+        .combined-box img {
+            width: 80px;
+            height: 80px;
+            margin-right: 20px; /* Space between image and title */
         }
         footer {
             background: linear-gradient(to bottom, #DFF3EA, #C2E4EF);
@@ -128,6 +153,12 @@
                 </div>
             </a>
         </div>
+        <a th:href="@{/user/product}" class="feature-link">
+        <div class="combined-box">
+            <img th:src="@{/uploads/clerk.png}" alt="Combined Icon">
+            <h3>Cashier View</h3>
+        </div>
+    </a>
     </main>
 
     <footer>

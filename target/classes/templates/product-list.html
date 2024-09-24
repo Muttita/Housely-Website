@@ -29,6 +29,7 @@
         background: linear-gradient(to bottom, #DFF3EA, #C2E4EF, #DFF3EA);
         height: 100vh;
         margin: 0;
+        user-select: none;
       }
 
       table.table-striped {
@@ -68,6 +69,10 @@
 
       .col-brand {
         width: 150px;
+      }
+
+      .col-action{
+        width: 200px;
       }
 
       .word-break {
@@ -222,7 +227,7 @@
   <body>
     <div class="container mx-auto p-4">
       <div class="header-container">
-          <h1 class="text-3xl font-bold mb-8" style="margin: 20px 0px 30px 0px">รายการหมวดหมู่</h1>
+          <h1 class="text-3xl font-bold mb-8" style="margin: 20px 0px 30px 0px">รายการสินค้า</h1>
           <form th:action="@{/logout}" method="post" style="display:inline;">
               <button type="submit" class="logout-button"><i class="fas fa-sign-out-alt"></i>Logout</button> <!-- เพิ่มไอคอน Logout -->
           </form>
@@ -307,11 +312,6 @@
             <th
               class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider"
             >
-              คำอธิบาย
-            </th>
-            <th
-              class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider"
-            >
               ประเภท
             </th>
             <th
@@ -320,7 +320,7 @@
               ห้อง
             </th>
             <th
-              class="col-fixed px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider"
+              class="col-action px-6 py-3 text-left text-l font-medium text-white uppercase tracking-wider"
             >
               การดำเนินการ
             </th>
@@ -340,7 +340,6 @@
             <td class="word-break" th:text="${product.productName}"></td>
             <td class="word-break" th:text="${product.price}"></td>
             <td class="word-break" th:text="${product.quantity}"></td>
-            <td class="word-break" th:text="${product.description}"></td>
             <td>
               <span th:each="category, stat : ${product.categories}">
                 <span
@@ -357,16 +356,17 @@
               </span>
             </td>
             <td>
+              <a th:href="@{'/admin/products/detail/' + ${product.id}}" class = "btn btn-info">Detail</a>
               <a
                 th:href="@{'/admin/products/edit/' + ${product.id}}"
                 class="btn btn-warning"
-                >แก้ไข</a
+                >Edit</a
               >
               <a
                 th:href="@{'/admin/products/delete/' + ${product.id}}"
                 class="btn btn-danger"
                 onclick="return confirmDelete()"
-                >ลบ</a
+                >Delete</a
               >
             </td>
           </tr>
