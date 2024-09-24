@@ -1,9 +1,12 @@
 package com.cp.kku.housely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cp.kku.housely.model.Room;
 import com.cp.kku.housely.service.RoomService;
@@ -56,4 +59,21 @@ public class RoomController {
         roomService.deleteRoom(id).block();
         return "redirect:/admin/rooms"; // Redirect to the room list after deletion
     }
+
+    @GetMapping("/delete/{id}")
+public String deleteRoom(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    try {
+        roomService.deleteRoom(id).block();
+        redirectAttributes.addFlashAttribute("message", "Room deleted successfully.");
+    } catch (DataIntegrityViolationException e) {
+        redirectAttributes.addFlashAttribute("error", "ไม่สามารถลบห้องได้เนื่องจากมีข้อมูลที่เกี่ยวข้อง กรุณาลบข้อมูลที่เกี่ยวข้องก่อน");
+    } catch (AccessDeniedException e) {
+        redirectAttributes.addFlashAttribute("error", "คุณไม่มีสิทธิ์ในการลบห้องนี้");
+    } catch (IllegalStateException e) {
+        redirectAttributes.addFlashAttribute("error", "ไม่สามารถลบห้องหลักของระบบได้");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการลบห้อง: " + e.getMessage());
+    }
+    return "redirect:/admin/rooms";
+}
 }

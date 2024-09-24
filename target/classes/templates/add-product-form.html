@@ -116,7 +116,7 @@
             <!-- Categories with Select2 -->
             <div class="form-section">
                 <label>Categories</label>
-                <select id="categorySelect" multiple name="categoryIds">
+                <select id="categorySelect" multiple name="categoryIds" required>
                     <option th:each="category : ${categories}" 
                             th:value="${category.categoryId}" 
                             th:text="${category.categoryName}"></option>
@@ -125,7 +125,7 @@
             <!-- Rooms with Select2 -->
             <div class="form-section">
                 <label>Rooms</label>
-                <select id="roomSelect" multiple name="roomIds">
+                <select id="roomSelect" multiple name="roomIds" required>
                     <option th:each="room : ${rooms}" 
                             th:value="${room.id}" 
                             th:text="${room.roomName}"></option>
@@ -137,10 +137,10 @@
                     Choose file
                 </label>
                 <input type="file" id="image" name="image" accept="image/*" required onchange="displayFileName()"/>
-                <p id="fileName" style="margin-top: 5px; color: #333;"></p> <!-- สำหรับแสดงชื่อไฟล์ -->
+                <p id="fileName" style="margin-top: 5px; color: #333;"></p>
             </div>            
             <div>
-                <button type="submit">Save</button>
+                <button type="submit">Submit</button>
                 <a th:href="@{/admin/products}">Cancel</a>
             </div>
         </form>

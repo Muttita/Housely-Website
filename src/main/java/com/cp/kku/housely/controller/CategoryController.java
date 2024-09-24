@@ -1,6 +1,8 @@
 package com.cp.kku.housely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,17 +54,21 @@ public class CategoryController {
     }
     
 
-    @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            categoryService.deleteCategory(id).block();
-            redirectAttributes.addFlashAttribute("message", "Category deleted successfully.");
-            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", "Cannot delete category. Reason: " + e.getMessage());
-            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-        }
-        return "redirect:/admin/categories";
+@GetMapping("/delete/{id}")
+public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    try {
+        categoryService.deleteCategory(id).block();
+        redirectAttributes.addFlashAttribute("message", "Category deleted successfully.");
+    } catch (DataIntegrityViolationException e) {
+        redirectAttributes.addFlashAttribute("error", "ไม่สามารถลบหมวดหมู่ได้เนื่องจากมีข้อมูลที่เกี่ยวข้อง กรุณาลบข้อมูลที่เกี่ยวข้องก่อน");
+    } catch (AccessDeniedException e) {
+        redirectAttributes.addFlashAttribute("error", "คุณไม่มีสิทธิ์ในการลบหมวดหมู่นี้");
+    } catch (IllegalStateException e) {
+        redirectAttributes.addFlashAttribute("error", "ไม่สามารถลบหมวดหมู่หลักของระบบได้");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการลบหมวดหมู่: " + e.getMessage());
     }
-    
+    return "redirect:/admin/categories";
+}
+
 }

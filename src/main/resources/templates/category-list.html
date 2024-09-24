@@ -291,23 +291,25 @@
                 </tr>
             </tbody>
         </table>
+        <div id="message" th:if="${message}" th:text="${message}" style="color: green;"></div>
+        <div id="error" th:if="${error}" th:text="${error}" style="color: red;"></div>
     </div>
 </body>
 <script>
     document.getElementById("searchButton").addEventListener("click", function () {
-        var searchType = document.getElementById("searchType").value; // ประเภทการค้นหา
-        var searchInput = document.getElementById("searchInput").value.toLowerCase(); // คำค้นหา
-        var tableRows = document.querySelectorAll("#categoryTable .table-row"); // แถวข้อมูลในตาราง
+        var searchType = document.getElementById("searchType").value;
+        var searchInput = document.getElementById("searchInput").value.toLowerCase(); 
+        var tableRows = document.querySelectorAll("#categoryTable .table-row"); 
 
         tableRows.forEach(function (row) {
             var cellIndex = getColumnIndex(searchType);
             var cell = row.querySelector("td:nth-child(" + cellIndex + ")");
             if (cell) {
-                var cellValue = cell.textContent.toLowerCase(); // ค่าของเซลล์ที่ค้นหา
+                var cellValue = cell.textContent.toLowerCase();
                 if (cellValue.includes(searchInput)) {
-                    row.style.display = ""; // แสดงแถวที่ตรงกับคำค้นหา
+                    row.style.display = ""; 
                 } else {
-                    row.style.display = "none"; // ซ่อนแถวที่ไม่ตรงกับคำค้นหา
+                    row.style.display = "none";
                 }
             }
         });
@@ -323,8 +325,29 @@
         }
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
+        var messageElement = document.getElementById('message');
+        var errorElement = document.getElementById('error');
+    
+        function hideMessage(element) {
+            if (element) {
+                setTimeout(function() {
+                    element.style.transition = 'opacity 1s';
+                    element.style.opacity = '0';
+                    setTimeout(function() {
+                        element.style.display = 'none';
+                    }, 1000); // Delay before hiding the element
+                }, 3000); // Change this to 3000 milliseconds (3 seconds)
+            }
+        }
+    
+        hideMessage(messageElement);
+        hideMessage(errorElement);
+    });
+    
+    
     function confirmDelete() {
-        return confirm("คุณแน่ใจว่าต้องการลบสินค้านี้?");
+        return confirm("คุณแน่ใจหรือไม่ที่จะลบหมวดหมู่(Category) นี้?");
     }
 
     document.getElementById("clearButton").addEventListener("click", function () {
@@ -337,5 +360,7 @@
             row.style.display = ""; // แสดงแถวทั้งหมด
         });
     });
+
+
 </script>
 </html>
