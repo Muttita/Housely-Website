@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Form</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: Anuphan, sans-serif;
+            background: linear-gradient(to bottom, #DFF3EA, #C2E4EF, #DFF3EA);
             color: #333;
             padding: 20px;
         }
         main {
             max-width: 600px;
             margin: auto;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.75);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            color: #4CAF50;
+            color: #000;
         }
         div {
             margin-bottom: 15px;
@@ -35,33 +36,34 @@
         input[type="text"], textarea {
             width: 100%;
             padding: 10px;
+            font-family: Anuphan, sans-serif;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
             box-sizing: border-box;
         }
-        input[type="text"]::placeholder,
-        textarea::placeholder {
-            color: #aaa;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
+        input[type="submit"], button {
+            background-color: #000;
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
         }
-        input[type="submit"]:hover {
-            background-color: #45a049;
+        input[type="submit"]:hover, button:hover {
+            background-color: #333;
         }
         a {
             text-decoration: none;
-            color: #4CAF50;
+            color: #000;
             margin-left: 10px;
         }
         a:hover {
             text-decoration: underline;
+        }
+        .form-section {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -78,7 +80,7 @@
                 <textarea id="description" th:field="*{description}" placeholder="Enter description" required></textarea>
             </div>
             <div>
-                <input type="submit" value="Save" />
+                <button type="submit">Save</button>
                 <a th:href="@{/admin/categories}">Cancel</a>
             </div>
         </form>

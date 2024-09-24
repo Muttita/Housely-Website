@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cp.kku.housely.model.Category;
 import com.cp.kku.housely.service.CategoryService;
@@ -33,7 +34,7 @@ public class CategoryController {
     @PostMapping("/save")
     public String saveCategory(@ModelAttribute("category") Category category) {
         categoryService.createCategory(category).block();
-        return "redirect:/categories"; // Redirect to the category list after saving
+        return "redirect:/admin/categories"; // Redirect to the category list after saving
     }
 
     @GetMapping("/edit/{id}")
@@ -47,13 +48,21 @@ public class CategoryController {
     public String updateCategory(@ModelAttribute("category") Category category, @PathVariable Long id) {
     	category.setCategoryId(id);
         categoryService.createCategory(category).block();
-        return "redirect:/categories"; // Redirect to the category list after saving
+        return "redirect:/admin/categories"; // Redirect to the category list after saving
     }
     
 
     @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id).block();
-        return "redirect:/categories"; // Redirect to the category list after deletion
+    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            categoryService.deleteCategory(id).block();
+            redirectAttributes.addFlashAttribute("message", "Category deleted successfully.");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Cannot delete category. Reason: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+        }
+        return "redirect:/admin/categories";
     }
+    
 }

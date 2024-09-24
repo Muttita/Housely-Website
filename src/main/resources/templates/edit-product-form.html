@@ -1,4 +1,3 @@
-<!-- หน้า edit -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* สไตล์ต่าง ๆ ที่ใช้เหมือนหน้า add */
+        /* สไตล์ที่ใช้เหมือนกับหน้า add */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: Anuphan, sans-serif;
+            background: linear-gradient(to bottom, #DFF3EA, #C2E4EF, #DFF3EA);
             color: #333;
             padding: 20px;
         }
         main {
             max-width: 600px;
             margin: auto;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.75);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            color: #4caf50;
+            color: #000;
         }
         div {
             margin-bottom: 15px;
@@ -38,25 +39,40 @@
         input[type="text"], input[type="number"], textarea, select {
             width: 100%;
             padding: 10px;
+            font-family: Anuphan, sans-serif;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
             box-sizing: border-box;
         }
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #DFF3EA;
+            color: #333;
+            font-size: 14px;
+        }
         input[type="submit"], button {
-            background-color: #4caf50;
+            background-color: #000;
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
         }
         input[type="submit"]:hover, button:hover {
-            background-color: #45a049;
+            background-color: #333;
         }
         a {
             text-decoration: none;
-            color: #4caf50;
+            color: #000; 
             margin-left: 10px;
         }
         a:hover {
@@ -86,11 +102,13 @@
             </div>
             <div>
                 <label for="price">Price:</label>
-                <input type="number" id="price" th:field="*{price}" step="0.01" placeholder="Enter price" required />
+                <input type="number" id="price" th:field="*{price}" placeholder="Enter price" required 
+                       onfocus="clearValue(this)" onblur="resetValue(this, 0)" />
             </div>
             <div>
                 <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" th:field="*{quantity}" placeholder="Enter quantity" required />
+                <input type="number" id="quantity" th:field="*{quantity}" placeholder="Enter quantity" required 
+                       onfocus="clearValue(this)" onblur="resetValue(this, 0)" />
             </div>
             <div>
                 <label for="description">Description:</label>
@@ -118,16 +136,17 @@
             </div>
             <div>
                 <label for="image">Image:</label>
-                <input type="file" id="image" name="image" accept="image/*"/>
-                
+                <label class="custom-file-upload" for="image">
+                    Choose file
+                </label>
+                <input type="file" id="image" name="image" accept="image/*" onchange="displayFileName()"/>
                 <!-- Current image preview -->
                 <div th:if="${currentImagePath}">
                     <p>Current image:</p>
                     <img th:src="@{${currentImagePath}}" alt="Current product image" style="max-width: 100px; margin-top: 10px;"/>
                 </div>
-                
-            </div>
-    
+                <p id="fileName" style="margin-top: 5px; color: #333;"></p> <!-- สำหรับแสดงชื่อไฟล์ -->
+            </div>            
             <div>
                 <button type="submit">Save</button>
                 <a th:href="@{/admin/products}">Cancel</a>
@@ -150,23 +169,50 @@
             });
 
             // ตั้งค่าตัวเลือกที่ถูกเลือกไว้ก่อนหน้า
-            var selectedCategories = [[${product.categories}]];
-            var selectedRooms = [[${product.rooms}]];
+            var selectedCategories = /*[[${product.categories}]]*/ [];
+            var selectedRooms = /*[[${product.rooms}]]*/ [];
 
-            if (selectedCategories) {
+            if (selectedCategories && selectedCategories.length) {
                 var categoryIds = selectedCategories.map(function(category) {
                     return category.categoryId.toString();
                 });
                 $('#categorySelect').val(categoryIds).trigger('change');
             }
 
-            if (selectedRooms) {
+            if (selectedRooms && selectedRooms.length) {
                 var roomIds = selectedRooms.map(function(room) {
                     return room.id.toString();
                 });
                 $('#roomSelect').val(roomIds).trigger('change');
             }
         });
+
+        // แสดงชื่อไฟล์ที่เลือก
+        function displayFileName() {
+            const input = document.getElementById('image');
+            const fileNameDisplay = document.getElementById('fileName');
+    
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                fileNameDisplay.textContent = fileName; // แสดงชื่อไฟล์
+            } else {
+                fileNameDisplay.textContent = ''; // ถ้าไม่มีไฟล์ที่เลือกให้เคลียร์ข้อความ
+            }
+        }
+
+        // เคลียร์ค่าใน input ถ้าเป็นค่า default
+        function clearValue(input) {
+            if (input.value === '0' || input.value === '0.0') {
+                input.value = '';
+            }
+        }
+
+        // ตั้งค่า default ถ้า input ว่างเปล่า
+        function resetValue(input, defaultValue) {
+            if (input.value === '') {
+                input.value = defaultValue;
+            }
+        }
     </script>
 </body>
 </html>

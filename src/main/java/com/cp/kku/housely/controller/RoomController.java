@@ -34,7 +34,7 @@ public class RoomController {
     public String saveRoom(@ModelAttribute("room") Room room) {
         System.out.println("here");
         roomService.createRoom(room).block();
-        return "redirect:/rooms"; // Redirect to the room list after saving
+        return "redirect:/admin/rooms"; // Redirect to the room list after saving
     }
 
     @GetMapping("/edit/{id}")
@@ -48,12 +48,12 @@ public class RoomController {
     public String saveRoom(@ModelAttribute("room") Room room, @PathVariable Long id) {
     	room.setId(id);
         roomService.createRoom(room).block();
-        return "redirect:/rooms"; // Redirect to the room list after saving
+        return "redirect:/admin/rooms"; // Redirect to the room list after saving
     }
 
     @GetMapping("/delete/{id}")
     public String deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id).block();
-        return "redirect:/rooms"; // Redirect to the room list after deletion
+        return "redirect:/admin/rooms"; // Redirect to the room list after deletion
     }
 }
