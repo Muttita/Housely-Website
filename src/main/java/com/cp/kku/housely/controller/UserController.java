@@ -17,7 +17,6 @@ import com.cp.kku.housely.model.Product;
 import com.cp.kku.housely.service.CategoryService;
 import com.cp.kku.housely.service.ProductService;
 import com.cp.kku.housely.service.RoomService;
-import com.cp.kku.housely.service.UserService;
 
 import reactor.core.publisher.Mono;
 
@@ -31,8 +30,6 @@ public class UserController {
     private CategoryService categoryService;
     @Autowired
     private RoomService roomService;
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/product")
     public String showProducts(Model model) {
@@ -48,10 +45,9 @@ public class UserController {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        // สมมุติว่าคุณมี UserService หรือ UserRepository เพื่อค้นหาผู้ใช้ตาม username
         return userDetails.getUsername();
     }
-    return null;  // หรือจัดการกรณีที่ผู้ใช้ไม่ถูกล็อกอิน
+    return null;
 }
 
     @GetMapping("/product/{id}")

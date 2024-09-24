@@ -237,31 +237,27 @@
 
         </div>
 
-        <!-- ส่วนค้นหา (ย้ายมาอยู่เหนือตาราง) -->
         <div class="mb-4">
             <div class="flex space-x-4 items-center">
-                <!-- Dropdown เลือกประเภทการค้นหา -->
+
                 <div class="search-dropdown">
                     <label for="searchType" class="block text-sm font-medium text-gray-700">ค้นหาจาก</label>
                     <select id="searchType" class="searchType">
                         <option value="categoryName">ชื่อหมวดหมู่</option>
-                        <!-- เพิ่มตัวเลือกอื่นๆ ได้ตามต้องการ -->
                     </select>
                 </div>
             
-                <!-- ช่องค้นหา -->
                 <div class="search-input">
                     <label for="searchInput" class="search-inp">คำค้นหา</label>
                     <input type="text" id="searchInput" class="search-text" placeholder="พิมพ์คำค้นหา..." />
                 </div>
             
-                <!-- ปุ่มค้นหา -->
                 <div class="search-button-container">
                     <button id="searchButton" class="search-button">
                         <i class="fas fa-search h-5 w-5 mr-2"></i> ค้นหา
                     </button>
                 </div>
-                <!-- ปุ่มล้างการค้นหา -->
+
                 <div class="search-button-container">
                     <button id="clearButton" class="clear-button">
                         <i class="fas fa-times h-5 w-5 mr-2"></i> ล้างการค้นหา
@@ -270,7 +266,6 @@
             </div>
         </div>
 
-        <!-- ตารางข้อมูล -->
         <table id="categoryTable">
             <thead>
                 <tr>
@@ -354,11 +349,9 @@
     document.getElementById("clearButton").addEventListener("click", function () {
         // ล้างค่าในช่องค้นหา
         document.getElementById("searchInput").value = "";
-      
-        // แสดงแถวทั้งหมดในตาราง
         var tableRows = document.querySelectorAll("#categoryTable .table-row");
         tableRows.forEach(function (row) {
-            row.style.display = ""; // แสดงแถวทั้งหมด
+            row.style.display = "";
         });
     });
 

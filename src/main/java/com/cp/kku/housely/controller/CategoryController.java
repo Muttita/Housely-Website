@@ -24,33 +24,33 @@ public class CategoryController {
     public String listCategories(Model model) {
         List<Category> categories = categoryService.getAllCategories().collectList().block();
         model.addAttribute("categories", categories);
-        return "category-list"; // Return the template for displaying categories
+        return "category-list";
     }
 
     @GetMapping("/add")
     public String showAddCategoryForm(Model model) {
         model.addAttribute("category", new Category());
-        return "add-category-form"; // Return the template for adding a category
+        return "add-category-form";
     }
 
     @PostMapping("/save")
     public String saveCategory(@ModelAttribute("category") Category category) {
         categoryService.createCategory(category).block();
-        return "redirect:/admin/categories"; // Redirect to the category list after saving
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditCategoryForm(@PathVariable Long id, Model model) {
         Category category = categoryService.getCategoryById(id).block();
         model.addAttribute("category", category);
-        return "edit-category-form"; // Return the template for editing a category
+        return "edit-category-form";
     }
     
     @PostMapping("/save/{id}")
     public String updateCategory(@ModelAttribute("category") Category category, @PathVariable Long id) {
     	category.setCategoryId(id);
         categoryService.createCategory(category).block();
-        return "redirect:/admin/categories"; // Redirect to the category list after saving
+        return "redirect:/admin/categories";
     }
     
 

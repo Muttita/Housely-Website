@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Form</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -146,8 +145,7 @@
             </div>
         </form>
     </main>
-    
-    <!-- JavaScript for Select2 -->
+ 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
@@ -161,8 +159,6 @@
                 width: '100%'
             });
         });
-    </script>
-    <script>
         function displayFileName() {
             const input = document.getElementById('image');
             const fileNameDisplay = document.getElementById('fileName');
@@ -174,8 +170,7 @@
                 fileNameDisplay.textContent = ''; // ถ้าไม่มีไฟล์ที่เลือกให้เคลียร์ข้อความ
             }
         }
-    </script>
-    <script>
+
         function clearValue(input) {
             if (input.value === '0' || input.value === '0.0') {
                 input.value = '';

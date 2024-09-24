@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Anuphan:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -155,7 +154,6 @@
         </form>
     </main>
     
-    <!-- JavaScript for Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
@@ -195,20 +193,19 @@
     
             if (input.files.length > 0) {
                 const fileName = input.files[0].name;
-                fileNameDisplay.textContent = fileName; // แสดงชื่อไฟล์
+                fileNameDisplay.textContent = fileName;
             } else {
-                fileNameDisplay.textContent = ''; // ถ้าไม่มีไฟล์ที่เลือกให้เคลียร์ข้อความ
+                fileNameDisplay.textContent = '';
             }
         }
 
-        // เคลียร์ค่าใน input ถ้าเป็นค่า default
+
         function clearValue(input) {
             if (input.value === '0' || input.value === '0.0') {
                 input.value = '';
             }
         }
 
-        // ตั้งค่า default ถ้า input ว่างเปล่า
         function resetValue(input, defaultValue) {
             if (input.value === '') {
                 input.value = defaultValue;

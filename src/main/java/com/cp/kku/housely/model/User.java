@@ -18,5 +18,4 @@ public class User {
 
     private String role;
 
-    // Constructors, getters, and setters
 }

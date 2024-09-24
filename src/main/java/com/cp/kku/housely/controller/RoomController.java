@@ -24,34 +24,34 @@ public class RoomController {
     public String listRooms(Model model) {
         List<Room> rooms = roomService.getAllRooms().collectList().block();
         model.addAttribute("rooms", rooms);
-        return "room-list"; // Return the template for displaying rooms
+        return "room-list";
     }
 
     @GetMapping("/add")
     public String showAddRoomForm(Model model) {
         model.addAttribute("room", new Room());
-        return "add-room-form"; // Return the template for adding a room
+        return "add-room-form";
     }
 
     @PostMapping("/save")
     public String saveRoom(@ModelAttribute("room") Room room) {
         System.out.println("here");
         roomService.createRoom(room).block();
-        return "redirect:/admin/rooms"; // Redirect to the room list after saving
+        return "redirect:/admin/rooms";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditRoomForm(@PathVariable Long id, Model model) {
         Room room = roomService.getRoomById(id).block();
         model.addAttribute("room", room);
-        return "edit-room-form"; // Return the template for editing a room
+        return "edit-room-form";
     }
     
     @PostMapping("/save/{id}")
     public String saveRoom(@ModelAttribute("room") Room room, @PathVariable Long id) {
     	room.setId(id);
         roomService.createRoom(room).block();
-        return "redirect:/admin/rooms"; // Redirect to the room list after saving
+        return "redirect:/admin/rooms";
     }
 
     @GetMapping("/delete/{id}")

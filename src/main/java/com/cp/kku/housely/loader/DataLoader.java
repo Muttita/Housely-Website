@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private final UserRepository userRepository; // สร้าง UserRepository ของคุณ
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -21,8 +21,8 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         User user = new User();
         user.setUsername("user");
-        user.setPassword(passwordEncoder.encode("password")); // เข้ารหัสรหัสผ่าน
+        user.setPassword(passwordEncoder.encode("password"));
         user.setRole("ROLE_USER");
-        userRepository.save(user); // บันทึกผู้ใช้ในฐานข้อมูล
+        userRepository.save(user);
     }
 }

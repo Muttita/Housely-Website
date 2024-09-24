@@ -19,17 +19,17 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "login"; // ชื่อไฟล์ login.html
+        return "login";
     }
 
     @GetMapping("/register")
     public String registerForm() {
-        return "register"; // ชื่อไฟล์ register.html
+        return "register";
     }
 
     @PostMapping("/register")
     public String register(User user, Model model) {
         userService.register(user);
-        return "redirect:/auth/login"; // redirect ไปหน้า login หลังลงทะเบียนสำเร็จ
+        return "redirect:/auth/login";
     }
 }
