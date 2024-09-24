@@ -6,6 +6,8 @@
     <title>Housely - ระบบขายหน้าร้าน</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script>
         tailwind.config = {
             theme: {
@@ -49,7 +51,12 @@
                                 th:text="${room.roomName}"></option>
                     </select>
                     <a href="/user/orders" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">คำสั่งซื้อ</a>
-                    <a href="/user/profile" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">โปรไฟล์</a>
+                    <a href="#" class="py-4 px-2 text-gray-500 font-semibold hover:text-blue-500 transition duration-300">
+                        <i class="fas fa-user mr-2"></i> <!-- User icon -->
+                        <span th:text="${userName}"></span>
+                    </a>
+                    
+
                 </div>
             </div>
         </div>
@@ -225,23 +232,44 @@
         }
 
         function updateProductQuantity(productId, quantity) {
-            // เชื่อมต่อ API ของคุณที่นี่
-            fetch(`/api/products/${productId}/decrease?quantity=${quantity}`, {
-                method: 'POST'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Quantity updated:', data);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
+        // เชื่อมต่อ API เพื่อลดจำนวนสินค้า
+        fetch(`/api/products/${productId}/decrease?quantity=${quantity}`, {
+            method: 'PUT'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Quantity decreased:', data);
+
+            // หลังจากลดจำนวนสินค้าแล้ว อัปเดตจำนวนสินค้าในฐานข้อมูล
+            // สมมติว่าเราต้องการลดจำนวนอีกครั้งหรือตั้งค่าใหม่
+            const newQuantity = data.quantity; // อัปเดตจำนวนใหม่จากข้อมูลที่ได้รับ
+            return fetch(`/api/products/${productId}/updateQuantity`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity: newQuantity }) // ใช้ข้อมูลใหม่ที่ได้รับ
             });
-        }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok during update');
+            }
+            return response.json();
+        })
+        .then(updatedData => {
+            console.log('Quantity updated in the database:', updatedData);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+
 
 
         

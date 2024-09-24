@@ -2,6 +2,9 @@ package com.cp.kku.housely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import com.cp.kku.housely.model.Product;
 import com.cp.kku.housely.service.CategoryService;
 import com.cp.kku.housely.service.ProductService;
 import com.cp.kku.housely.service.RoomService;
+import com.cp.kku.housely.service.UserService;
 
 import reactor.core.publisher.Mono;
 
@@ -27,14 +31,27 @@ public class UserController {
     private CategoryService categoryService;
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/product")
     public String showProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts().collectList().block());
         model.addAttribute("categorys", categoryService.getAllCategories().collectList().block());
         model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
+        model.addAttribute("userName", getCurrentUserId());
         return "user-product";
     }
+
+    public String getCurrentUserId() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // สมมุติว่าคุณมี UserService หรือ UserRepository เพื่อค้นหาผู้ใช้ตาม username
+        return userDetails.getUsername();
+    }
+    return null;  // หรือจัดการกรณีที่ผู้ใช้ไม่ถูกล็อกอิน
+}
 
     @GetMapping("/product/{id}")
     public String getViewProductById(@PathVariable Long id, Model model) {
