@@ -222,24 +222,6 @@
                 updateCartDisplay();
             }
         }
-
-        // ตัวอย่างการแสดงชื่อห้องที่เลือก
-        function showSelectedRoom(select) {
-            const roomTitle = document.getElementById('selectedRoomTitle');
-            roomTitle.textContent = select.options[select.selectedIndex].text;
-        }
-
-        document.getElementById('userMenuButton').addEventListener('click', function() {
-            const dropdown = document.getElementById('userDropdown');
-            dropdown.classList.toggle('hidden');
-        });
-
-        window.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('userDropdown');
-            if (!event.target.matches('#userMenuButton')) {
-                dropdown.classList.add('hidden');
-            }
-        });
     </script>
 </body>
 </html>

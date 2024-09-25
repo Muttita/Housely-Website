@@ -61,8 +61,9 @@ public class UserController {
         model.addAttribute("products", productService.getProductsByCategoryId(id).collectList().block());
         model.addAttribute("categorys", categoryService.getAllCategories().collectList().block());
         model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
-
-        return "user-product";
+        model.addAttribute("category", categoryService.getCategoryById(id).block());
+        model.addAttribute("userName", getCurrentUserId());
+        return "category-user-page";
     }
 
     @GetMapping("/product/room/{id}")
@@ -70,16 +71,20 @@ public class UserController {
         model.addAttribute("products", productService.getProductsByRoomId(id).collectList().block());
         model.addAttribute("categorys", categoryService.getAllCategories().collectList().block());
         model.addAttribute("rooms", roomService.getAllRooms().collectList().block());
+        model.addAttribute("room", roomService.getRoomById(id).block());
+        model.addAttribute("userName", getCurrentUserId());
         
-        return "user-product";
+        return "room-user-page";
     }
 
-    @PutMapping("/decreaseQuantity/{id}")
-    public Mono<ResponseEntity<Product>> decreaseProductQuantity(@PathVariable Long id, @RequestParam int quantity) {
-        return productService.decreaseProductQuantity(id, quantity)
-                .map(product -> ResponseEntity.ok(product))
-                .switchIfEmpty(Mono.just(ResponseEntity.badRequest().build()));
-    }
+    // @PutMapping("/decreaseQuantity/{id}")
+    // public Mono<ResponseEntity<Product>> decreaseProductQuantity(@PathVariable Long id, @RequestParam int quantity) {
+    //     return productService.decreaseProductQuantity(id, quantity)
+    //             .map(product -> ResponseEntity.ok(product))
+    //             .switchIfEmpty(Mono.just(ResponseEntity.badRequest().build()));
+    // }
+
+    
 
 
 
