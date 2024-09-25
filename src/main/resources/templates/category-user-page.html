@@ -61,8 +61,8 @@
 </head>
 <body class="bg-gray-100">
 <header>
-    <h1><a href ="/admin/home">HOUSELY</a></h1>
-    <nav class="bg-transparent shadow-none"> <!-- เปลี่ยนเป็น bg-transparent และ shadow-none -->
+    <h1><a href ="/user/product">HOUSELY</a></h1>
+    <nav class="bg-transparent shadow-none">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between">
                 <div class="flex space-x-7">                                     
@@ -222,6 +222,18 @@
                 updateCartDisplay();
             }
         }
+
+        document.getElementById('userMenuButton').addEventListener('click', function() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        });
+
+        window.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            if (!event.target.matches('#userMenuButton')) {
+                dropdown.classList.add('hidden');
+            }
+        });
     </script>
 </body>
 </html>

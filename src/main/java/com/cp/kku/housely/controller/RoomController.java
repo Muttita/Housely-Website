@@ -66,7 +66,7 @@ public String deleteRoom(@PathVariable Long id, RedirectAttributes redirectAttri
     } catch (IllegalStateException e) {
         redirectAttributes.addFlashAttribute("error", "ไม่สามารถลบห้องหลักของระบบได้");
     } catch (Exception e) {
-        redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการลบห้อง: " + e.getMessage());
+        redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการลบห้องเนื่องจากมีสินค้าในห้องนี้");
     }
     return "redirect:/admin/rooms";
 }

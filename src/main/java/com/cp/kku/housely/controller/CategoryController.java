@@ -66,7 +66,7 @@ public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectA
     } catch (IllegalStateException e) {
         redirectAttributes.addFlashAttribute("error", "ไม่สามารถลบหมวดหมู่หลักของระบบได้");
     } catch (Exception e) {
-        redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการลบหมวดหมู่: " + e.getMessage());
+        redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการลบหมวดหมู่เนื่องจากมีสินค้าในหมวดหมู่นี้");
     }
     return "redirect:/admin/categories";
 }
